@@ -1,0 +1,23 @@
+# Raw/private data
+data/
+raw_data/
+derivatives/
+*.snirf
+*.nirs
+*.mat
+
+# Subject information
+*subject*
+*participant*
+*demographic*
+*.csv
+*.xlsx
+
+# Python
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+.env
+
+# Private results
+results/private/

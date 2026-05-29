@@ -1,0 +1,8 @@
+mne
+mne-nirs
+numpy
+pandas
+matplotlib
+scipy
+statsmodels
+jupyter
