@@ -29,6 +29,18 @@ preprocessing:
   add_short_separation_regressors: true
 
 analysis:
+  glm:
+    input_dir: "derivatives/preprocessed"
+    stim_duration_sec: 10
+    hrf_model: "glover"
+    drift_model: "cosine"
+    high_pass: 0.008
+    noise_model: "ar1"
+    output_dir: "derivatives/first_level_glm"
+    beta_table: "results/first_level_betas.csv"
+    contrast_table: "results/first_level_contrasts.csv"
+    summary_table: "results/first_level_glm_summary.csv"
+    primary_contrast_name: "MA-Control"
   first_level_conditions:
     - MA
     - PA
