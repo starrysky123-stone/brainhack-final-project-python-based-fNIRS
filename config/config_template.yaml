@@ -1,0 +1,39 @@
+data:
+  # Keep raw data outside GitHub. This is only a local path template.
+  root_dir: "/path/to/local/dyslexia_project/Anyalysis/group"
+  group_dirs:
+    G1_3: "G1_3"
+    G4_6: "G4_6"
+  snirf_pattern: "*.snirf"
+
+events:
+  # Mapping recovered from the original MATLAB nirs-toolbox pipeline:
+  # stim_channel1 -> MA, stim_channel2 -> PA, stim_channel3 -> Control.
+  condition_map:
+    "1": "MA"
+    "2": "PA"
+    "3": "Control"
+  expected_counts:
+    MA: 16
+    Control: 16
+
+preprocessing:
+  resample_hz: 2
+  trim_baseline_sec:
+    pre: 5
+    post: 5
+  hrf_peak_time_sec: 6
+  add_short_separation_regressors: true
+
+analysis:
+  first_level_conditions:
+    - MA
+    - PA
+    - Control
+  primary_contrasts:
+    - name: "G4_6 MA - Control"
+      expression: "G4_6:MA - G4_6:Control"
+    - name: "G1_3 MA - Control"
+      expression: "G1_3:MA - G1_3:Control"
+    - name: "G4_6 MA effect - G1_3 MA effect"
+      expression: "(G4_6:MA - G4_6:Control) - (G1_3:MA - G1_3:Control)"

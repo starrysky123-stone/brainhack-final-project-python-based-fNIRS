@@ -1,0 +1,16 @@
+name: fnirs-mne
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib
+  - statsmodels
+  - pyyaml
+  - jupyter
+  - pip:
+      - mne
+      - mne-nirs
