@@ -18,6 +18,8 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+import mne
+from mne_nirs.channels import get_long_channels
 from scipy import stats
 from statsmodels.stats.multitest import fdrcorrection
 
@@ -25,6 +27,30 @@ from load_data import load_config
 
 
 GROUP_ORDER = ("G1_3", "G4_6")
+
+
+def get_long_hbo_channel_names(input_dir: Path) -> set[str]:
+    fif_files = sorted(input_dir.rglob("*_hbo_hbr_raw.fif"))
+    if not fif_files:
+        raise FileNotFoundError(f"No preprocessed FIF files found under {input_dir}")
+
+    raw = mne.io.read_raw_fif(fif_files[0], preload=False, verbose="error")
+    long_hbo = get_long_channels(raw.copy().pick("hbo"))
+    return set(long_hbo.ch_names)
+
+
+def filter_contrast_table(
+    contrast_df: pd.DataFrame,
+    group_config: dict[str, Any],
+) -> pd.DataFrame:
+    if not group_config.get("long_hbo_only", False):
+        return contrast_df
+
+    input_dir = Path(group_config.get("preprocessed_input_dir", "derivatives/preprocessed"))
+    long_hbo_names = get_long_hbo_channel_names(input_dir)
+    return contrast_df[
+        (contrast_df["Chroma"] == "hbo") & (contrast_df["ch_name"].isin(long_hbo_names))
+    ].copy()
 
 
 def safe_one_sample_t(values: pd.Series) -> tuple[float, float, float, int]:
@@ -163,16 +189,17 @@ def main() -> None:
     alpha = float(group_config.get("alpha", 0.05))
 
     contrast_table = args.contrast_table or Path(
-        group_config.get("contrast_table", "results/first_level_contrasts.csv")
+        group_config.get("contrast_table", "results/first_level_contrasts_ssreg.csv")
     )
     output_table = args.output_table or Path(
-        group_config.get("output_table", "results/group_level_channel_stats.csv")
+        group_config.get("output_table", "results/group_level_channel_stats_ssreg_long_hbo.csv")
     )
     summary_table = args.summary_table or Path(
-        group_config.get("summary_table", "results/group_level_summary.csv")
+        group_config.get("summary_table", "results/group_level_summary_ssreg_long_hbo.csv")
     )
 
     contrast_df = pd.read_csv(contrast_table)
+    contrast_df = filter_contrast_table(contrast_df, group_config)
     stats_df = compute_group_stats(contrast_df, alpha=alpha)
     summary_df = summarize_results(stats_df)
 

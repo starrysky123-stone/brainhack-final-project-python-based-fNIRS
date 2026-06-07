@@ -17,6 +17,7 @@ Main settings:
 - Drift model: cosine
 - High-pass value for drift regressors: 0.008
 - Noise model: `ar1`
+- Short-separation regressors: enabled
 - Conditions modeled: `MA`, `PA`, `Control`
 - Primary contrast: `MA-Control`
 
@@ -38,9 +39,9 @@ All 131 preprocessed participant files completed the first-level GLM.
 The script writes local result tables to:
 
 ```text
-results/first_level_glm_summary.csv
-results/first_level_betas.csv
-results/first_level_contrasts.csv
+results/first_level_glm_summary_ssreg.csv
+results/first_level_betas_ssreg.csv
+results/first_level_contrasts_ssreg.csv
 ```
 
 These CSV files are ignored by Git because they contain per-subject derived
@@ -48,7 +49,7 @@ results.
 
 Output size:
 
-- First-level beta rows: 125,600
+- First-level beta rows: 293,280
 - First-level `MA-Control` contrast rows: 10,480
 
 The contrast table contains one row per subject, channel, and chromophore.
@@ -57,14 +58,17 @@ The contrast table contains one row per subject, channel, and chromophore.
 
 - GLM status: 131 successful, 0 failed.
 - GLM warnings: 0.
-- Most subjects had 12 design-matrix columns:
-  `Control`, `MA`, `PA`, 8 cosine drift terms, and `constant`.
-- Two subjects had 11 design-matrix columns because the cosine drift basis used
+- Each subject had 16 short-separation regressors.
+- Most subjects had 28 design-matrix columns:
+  `Control`, `MA`, `PA`, 16 short-separation regressors, 8 cosine drift terms,
+  and `constant`.
+- Two subjects had 27 design-matrix columns because the cosine drift basis used
   one fewer drift term for their task-window duration.
 
 ## Descriptive Contrast Check
 
-The number of uncorrected `MA-Control` channel-level results with `p < .05` was:
+The number of uncorrected `MA-Control` channel-level results with `p < .05`
+before long-HbO-only filtering was:
 
 | Group | Chroma | Count |
 | --- | --- | ---: |

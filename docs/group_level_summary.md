@@ -18,14 +18,18 @@ contrast effects between grade groups at each channel and chromophore.
 
 ## Statistical Tests
 
-The group-level script computes three channel-level analyses:
+The group-level script uses the short-separation-regressed first-level contrast
+table and filters the analysis to long-distance HbO channels, matching the
+MATLAB analysis focus more closely than the initial all-channel Python version.
+
+It computes three channel-level analyses:
 
 1. `G1_3 MA-Control`: one-sample t-test against 0.
 2. `G4_6 MA-Control`: one-sample t-test against 0.
 3. `G4_6 minus G1_3 MA-Control`: Welch two-sample t-test.
 
-Multiple-comparison correction is applied separately for each comparison and
-chromophore across 40 channels:
+Multiple-comparison correction is applied separately for each comparison across
+32 long-distance HbO channels:
 
 - FDR correction
 - Bonferroni correction
@@ -40,26 +44,23 @@ The group analysis used all 131 participants:
 | G4_6 | 72 |
 | Total | 131 |
 
-The result table contains 240 rows:
+The result table contains 96 rows:
 
 ```text
-3 comparisons x 2 chromophores x 40 channels
+3 comparisons x 1 chromophore x 32 channels
 ```
 
 ## Main Result
 
 No channel survived FDR or Bonferroni correction at alpha = 0.05.
 
-Uncorrected channel counts with `p < .05`:
+Uncorrected long-HbO channel counts with `p < .05`:
 
 | Comparison | Chroma | Uncorrected p < .05 | FDR significant | Bonferroni significant |
 | --- | --- | ---: | ---: | ---: |
-| G1_3 MA-Control | HbO | 4 | 0 | 0 |
-| G1_3 MA-Control | HbR | 1 | 0 | 0 |
+| G1_3 MA-Control | HbO | 2 | 0 | 0 |
 | G4_6 MA-Control | HbO | 1 | 0 | 0 |
-| G4_6 MA-Control | HbR | 1 | 0 | 0 |
-| G4_6 minus G1_3 MA-Control | HbO | 1 | 0 | 0 |
-| G4_6 minus G1_3 MA-Control | HbR | 0 | 0 | 0 |
+| G4_6 minus G1_3 MA-Control | HbO | 0 | 0 | 0 |
 
 ## Descriptive Top Channels
 
@@ -67,10 +68,10 @@ The smallest uncorrected p-values were:
 
 | Comparison | Chroma | Channel | p | FDR p |
 | --- | --- | --- | ---: | ---: |
-| G1_3 MA-Control | HbO | S1_D1 hbo | 0.002041 | 0.081644 |
-| G4_6 MA-Control | HbR | S9_D20 hbr | 0.009051 | 0.362055 |
-| G1_3 MA-Control | HbR | S10_D21 hbr | 0.010989 | 0.439574 |
-| G4_6 minus G1_3 MA-Control | HbO | S3_D8 hbo | 0.049535 | 0.987961 |
+| G1_3 MA-Control | HbO | S1_D1 hbo | 0.004539 | 0.145263 |
+| G4_6 MA-Control | HbO | S11_D13 hbo | 0.031599 | 0.594439 |
+| G1_3 MA-Control | HbO | S1_D4 hbo | 0.043052 | 0.634445 |
+| G4_6 minus G1_3 MA-Control | HbO | S1_D1 hbo | 0.086210 | 0.956130 |
 
 These are descriptive exploratory results only. The corrected analysis did not
 identify statistically significant channels.
@@ -85,6 +86,6 @@ python scripts/group_analysis.py
 The script writes local tables to:
 
 ```text
-results/group_level_channel_stats.csv
-results/group_level_summary.csv
+results/group_level_channel_stats_ssreg_long_hbo.csv
+results/group_level_summary_ssreg_long_hbo.csv
 ```

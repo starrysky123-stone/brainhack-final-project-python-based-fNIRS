@@ -36,15 +36,19 @@ analysis:
     drift_model: "cosine"
     high_pass: 0.008
     noise_model: "ar1"
+    add_short_channel_regressors: true
+    short_channel_max_dist_m: 0.01
     output_dir: "derivatives/first_level_glm"
-    beta_table: "results/first_level_betas.csv"
-    contrast_table: "results/first_level_contrasts.csv"
-    summary_table: "results/first_level_glm_summary.csv"
+    beta_table: "results/first_level_betas_ssreg.csv"
+    contrast_table: "results/first_level_contrasts_ssreg.csv"
+    summary_table: "results/first_level_glm_summary_ssreg.csv"
     primary_contrast_name: "MA-Control"
   group:
-    contrast_table: "results/first_level_contrasts.csv"
-    output_table: "results/group_level_channel_stats.csv"
-    summary_table: "results/group_level_summary.csv"
+    contrast_table: "results/first_level_contrasts_ssreg.csv"
+    preprocessed_input_dir: "derivatives/preprocessed"
+    long_hbo_only: true
+    output_table: "results/group_level_channel_stats_ssreg_long_hbo.csv"
+    summary_table: "results/group_level_summary_ssreg_long_hbo.csv"
     alpha: 0.05
     comparisons:
       - "G1_3 MA-Control"
