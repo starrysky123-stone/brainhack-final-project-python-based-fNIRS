@@ -41,6 +41,15 @@ analysis:
     contrast_table: "results/first_level_contrasts.csv"
     summary_table: "results/first_level_glm_summary.csv"
     primary_contrast_name: "MA-Control"
+  group:
+    contrast_table: "results/first_level_contrasts.csv"
+    output_table: "results/group_level_channel_stats.csv"
+    summary_table: "results/group_level_summary.csv"
+    alpha: 0.05
+    comparisons:
+      - "G1_3 MA-Control"
+      - "G4_6 MA-Control"
+      - "G4_6 minus G1_3 MA-Control"
   first_level_conditions:
     - MA
     - PA
