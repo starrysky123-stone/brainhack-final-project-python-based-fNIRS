@@ -1,6 +1,7 @@
 data:
   # Keep raw data outside GitHub. This is only a local path template.
   root_dir: "/path/to/local/dyslexia_project/Anyalysis/group"
+  derivatives_dir: "derivatives/preprocessed"
   group_dirs:
     G1_3: "G1_3"
     G4_6: "G4_6"
@@ -19,6 +20,8 @@ events:
 
 preprocessing:
   resample_hz: 2
+  ppf: 6.0
+  short_channel_threshold_m: 0.01
   trim_baseline_sec:
     pre: 5
     post: 5

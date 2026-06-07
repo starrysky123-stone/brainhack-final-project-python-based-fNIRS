@@ -5,6 +5,7 @@ derivatives/
 *.snirf
 *.nirs
 *.mat
+.DS_Store
 
 # Subject information
 *subject*
