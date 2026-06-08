@@ -94,6 +94,9 @@ def compare_subject(
         matlab_valid = matlab_signal[valid]
         diff = py_valid - matlab_valid
         corr = np.corrcoef(py_valid, matlab_valid)[0, 1]
+        fit_scale, fit_offset = np.polyfit(py_valid, matlab_valid, 1)
+        py_scaled = (py_valid * fit_scale) + fit_offset
+        scaled_diff = py_scaled - matlab_valid
 
         rows.append(
             {
@@ -111,6 +114,15 @@ def compare_subject(
                 "matlab_std": float(np.std(matlab_valid)),
                 "std_ratio_python_over_matlab": float(
                     np.std(py_valid) / np.std(matlab_valid)
+                    if np.std(matlab_valid) != 0
+                    else np.nan
+                ),
+                "fitted_scale_matlab_per_python": float(fit_scale),
+                "fitted_offset_matlab_units": float(fit_offset),
+                "scaled_mae_matlab_units": float(np.mean(np.abs(scaled_diff))),
+                "scaled_rmse_matlab_units": float(np.sqrt(np.mean(scaled_diff**2))),
+                "scaled_nrmse_by_matlab_std": float(
+                    np.sqrt(np.mean(scaled_diff**2)) / np.std(matlab_valid)
                     if np.std(matlab_valid) != 0
                     else np.nan
                 ),
@@ -146,6 +158,12 @@ def summarize(results: pd.DataFrame) -> pd.DataFrame:
                 "median_mae": ok["mae"].median(),
                 "median_std_ratio_python_over_matlab": ok[
                     "std_ratio_python_over_matlab"
+                ].median(),
+                "median_fitted_scale_matlab_per_python": ok[
+                    "fitted_scale_matlab_per_python"
+                ].median(),
+                "median_scaled_nrmse_by_matlab_std": ok[
+                    "scaled_nrmse_by_matlab_std"
                 ].median(),
             }
         ]

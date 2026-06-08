@@ -12,17 +12,25 @@
 
 clear
 
+script_path = mfilename('fullpath');
+if isempty(script_path)
+    project_root = pwd;
+else
+    project_root = fileparts(fileparts(script_path));
+end
+
 datadir = uigetdir([], 'Select the local fNIRS group directory');
 if isequal(datadir, 0)
     error('No data directory selected.');
 end
 
-outdir = fullfile(pwd, 'validation', 'matlab_preprocessed');
+outdir = fullfile(project_root, 'validation', 'matlab_preprocessed');
 if ~exist(outdir, 'dir')
     mkdir(outdir);
 end
 
 raw = nirs.io.loadDirectory(datadir, {'Group', 'Subject'});
+fprintf('Loaded datasets: %d\n', length(raw));
 
 rename = nirs.modules.RenameStims();
 rename.listOfChanges = {
@@ -30,6 +38,7 @@ rename.listOfChanges = {
     'stim_channel2', 'PA';
     'stim_channel3', 'Control'};
 raw = rename.run(raw);
+fprintf('After stimulus rename: %d datasets\n', length(raw));
 
 expectedConds = {'MA', 'Control'};
 expectedN = 16;
@@ -53,24 +62,35 @@ end
 excl = unique(excl);
 fprintf('Datasets excluded because of incomplete MA/Control markers: %d\n', length(excl));
 raw(excl) = [];
+fprintf('After MA/Control marker filter: %d datasets\n', length(raw));
 
 j_ss = nirs.modules.LabelShortSeperation();
 raw = j_ss.run(raw);
+fprintf('After short-separation labeling: %d datasets\n', length(raw));
 
 resample = nirs.modules.Resample();
 resample.Fs = 2;
 downraw = resample.run(raw);
+fprintf('After resampling: %d datasets\n', length(downraw));
 
 odconv = nirs.modules.OpticalDensity();
 od = odconv.run(downraw);
+fprintf('After optical density conversion: %d datasets\n', length(od));
 
 mbll = nirs.modules.BeerLambertLaw();
 hb = mbll.run(od);
+fprintf('After Beer-Lambert Law conversion: %d datasets\n', length(hb));
 
 trim = nirs.modules.TrimBaseline();
 trim.preBaseline = 5;
 trim.postBaseline = 5;
 hb_trim = trim.run(hb);
+fprintf('After baseline trimming: %d datasets\n', length(hb_trim));
+
+if isempty(hb_trim)
+    error(['No datasets remained after MATLAB preprocessing. ', ...
+        'Please confirm that the selected folder is the group root containing G1_3 and G4_6 subject folders.']);
+end
 
 manifest = table();
 

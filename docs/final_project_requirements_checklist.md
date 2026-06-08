@@ -10,7 +10,7 @@ to the current repository. It is based on the local course note PDF:
 | --- | --- |
 | GitHub repository with project code | Present: `scripts/` |
 | Clear README | Present: `README.md` |
-| Website report or notebook | In progress: `report/final_report_draft.md`, `notebooks/` |
+| Website report or notebook | Present: `report/index.md`, `report/final_report_draft.md`, `notebooks/` |
 | Slides | Present: `slides/final_presentation_outline.md`, `slides/final_presentation.pptx` |
 | Analysis figures | Present: `figures/` |
 
@@ -53,9 +53,8 @@ to the current repository. It is based on the local course note PDF:
 
 ## Remaining Tasks
 
-1. Run MATLAB preprocessing export for validation if MATLAB/nirs-toolbox is
-   available locally.
-2. Run Python MATLAB-MNE preprocessing validation after export.
-3. Turn the report draft into the final website report or notebook.
-4. Review and polish `slides/final_presentation.pptx` in PowerPoint or Keynote.
-5. Push any final commits to GitHub after confirming no private data are staged.
+1. Review and polish `slides/final_presentation.pptx` in PowerPoint or Keynote.
+2. If time permits, investigate likely sources of the MATLAB-vs-MNE scale and
+   waveform differences.
+3. Push any final code/documentation commits to GitHub after confirming no
+   private data are staged.

@@ -95,6 +95,8 @@ The validation metrics are:
 - root mean squared error
 - mean and standard deviation in each pipeline
 - Python/MATLAB standard-deviation ratio
+- fitted MATLAB/Python scale factor
+- normalized RMSE after linear scale alignment
 
 ## Current Project Status
 
@@ -104,8 +106,32 @@ different stages:
 | Feedback issue | Current status |
 | --- | --- |
 | Function mapping | Mostly documented; this file records the current mapping and gaps |
-| Numerical validation | Validation scripts are implemented, but MATLAB export still needs to be run locally |
+| Numerical validation | Completed locally for 131 subjects and 10,560 channel-level comparisons |
 
-The next blocking step is to run the MATLAB export script so the Python
-validation script can quantify whether the preprocessing outputs are close
-enough to support interpretation of the MA analysis.
+## Current Validation Result
+
+After exporting the MATLAB/nirs-toolbox preprocessed HbO/HbR time series, the
+Python validation compared 131 subjects and 10,560 channel-level time series.
+
+Summary:
+
+| Metric | Value |
+| --- | ---: |
+| Subjects compared | 131 |
+| Channel-level comparisons | 10,560 |
+| Median channel-wise correlation | 0.606 |
+| Minimum channel-wise correlation | -0.810 |
+| Median Python/MATLAB standard-deviation ratio | 1.67e-08 |
+| Median fitted MATLAB/Python scale factor | 3.79e+07 |
+| Median normalized RMSE after scale alignment | 0.793 |
+
+This indicates that the current MNE-Python preprocessing is not a strict
+numerical replication of the MATLAB/nirs-toolbox preprocessing. Some individual
+channels show very high temporal similarity, but the overall validation shows a
+large amplitude/unit scale difference and meaningful residual waveform
+differences after scale alignment.
+
+The MA activation comparison can still be presented as an MNE-Python analysis
+pipeline inspired by the MATLAB workflow. However, the report should not claim
+that the Python preprocessing is numerically equivalent to MATLAB. The numerical
+validation is best treated as a methodological finding and limitation.

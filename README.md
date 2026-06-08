@@ -60,7 +60,8 @@ these stages:
    - `G4_6 MA-Control`
    - `G4_6 minus G1_3 MA-Control`
 7. Run a MATLAB-like mixed-effects group model for long-HbO MA contrasts.
-8. Document a MATLAB-vs-MNE preprocessing validation plan as a method check.
+8. Validate MATLAB/nirs-toolbox and MNE-Python preprocessing outputs as a
+   method check.
 
 ## New Skills and Open Science
 
@@ -68,7 +69,7 @@ This final project focuses on learning and applying MNE-Python and MNE-NIRS for
 fNIRS data analysis. The new technical components include SNIRF loading in
 Python, fNIRS preprocessing, subject-level GLM analysis, group-level MA
 contrast testing, aggregate visualization, and MATLAB-to-MNE preprocessing
-validation planning.
+validation.
 
 The repository is organized for open and reproducible analysis while protecting
 participant privacy. Code, documentation, and aggregate figures are included;
@@ -106,12 +107,19 @@ pipeline. The Python pipeline now includes two important alignment steps:
 - short-separation regressors at the first-level GLM stage
 - long-HbO-only filtering for group-level channel statistics
 
-The Python and MATLAB results are not expected to be numerically identical at
-this stage. Important remaining differences include MATLAB AR-IRLS estimation,
-MATLAB mixed-effects group modeling, and possible HRF/model implementation
-differences. A separate validation step is documented to compare MATLAB and
-MNE-Python preprocessed HbO/HbR time series before interpreting differences
-between MATLAB and Python statistical outputs.
+The Python and MATLAB results are not numerically identical. The local
+preprocessing validation compared 131 subjects and 10,560 channel-level HbO/HbR
+time series. The median channel-wise correlation was 0.606, the median
+Python/MATLAB standard-deviation ratio was 1.67e-08, and the median normalized
+RMSE after linear scale alignment was 0.793. These results indicate a large
+amplitude/unit scale difference and remaining waveform differences. Therefore,
+the current Python pipeline should be interpreted as a transparent MNE-Python
+implementation inspired by the MATLAB workflow, not as a strict numerical
+replication of the MATLAB/nirs-toolbox pipeline.
+
+Important remaining differences include MATLAB AR-IRLS estimation, possible
+HRF/model implementation differences, and solver/default differences in the
+mixed-effects group model.
 
 See:
 

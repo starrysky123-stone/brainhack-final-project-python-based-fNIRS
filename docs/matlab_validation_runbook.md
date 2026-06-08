@@ -140,10 +140,40 @@ The validation summary reports:
 | `median_rmse` | Typical absolute numerical disagreement scale |
 | `median_mae` | Typical absolute error |
 | `median_std_ratio_python_over_matlab` | Whether Python and MATLAB signal amplitudes have similar variability |
+| `median_fitted_scale_matlab_per_python` | Typical fitted scale factor needed to place Python signals on the MATLAB scale |
+| `median_scaled_nrmse_by_matlab_std` | Typical residual error after linear scale alignment, normalized by MATLAB standard deviation |
 
 High correlations would suggest that the preprocessing outputs are temporally
 similar. RMSE/MAE and standard-deviation ratios help determine whether the
 signals are also similar in scale.
+
+## Current Local Validation Result
+
+The MATLAB export and Python validation were completed locally. The validation
+compared 131 subjects and 10,560 channel-level HbO/HbR time series.
+
+Summary:
+
+| Metric | Value |
+| --- | ---: |
+| Subjects compared | 131 |
+| Channel-level comparisons | 10,560 |
+| Median channel-wise correlation | 0.606 |
+| Minimum channel-wise correlation | -0.810 |
+| Median RMSE | 58.285 |
+| Median MAE | 45.838 |
+| Median Python/MATLAB standard-deviation ratio | 1.67e-08 |
+| Median fitted MATLAB/Python scale factor | 3.79e+07 |
+| Median normalized RMSE after scale alignment | 0.793 |
+
+Interpretation:
+
+The current Python preprocessing output is not numerically equivalent to the
+MATLAB/nirs-toolbox preprocessing output. The validation shows a large
+amplitude/unit scale difference and remaining waveform disagreement after
+linear scale alignment. Therefore, the Python pipeline should be described as a
+transparent MNE-Python implementation based on the MATLAB workflow, not as a
+bitwise or numerically matched reproduction of the MATLAB pipeline.
 
 ## Suggested Wording for the Report
 
@@ -168,14 +198,20 @@ replication. Further parameter and algorithm matching is needed before making
 strong claims about equivalence.
 ```
 
-## Current Blocking Point
+## Output Location
 
-The Python validation script is ready, but it cannot run until the MATLAB export
-creates:
+The MATLAB export creates:
 
 ```text
 validation/matlab_preprocessed/manifest.csv
 ```
 
-Until that file exists, the project can document the validation plan but cannot
-yet report numerical agreement.
+The Python validation creates:
+
+```text
+results/matlab_mne_preprocessing_validation.csv
+results/matlab_mne_preprocessing_validation_summary.csv
+```
+
+These files contain subject-level derived data and are intentionally ignored by
+Git.

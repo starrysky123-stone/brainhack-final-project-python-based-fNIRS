@@ -64,7 +64,7 @@ MNE-NIRS for fNIRS data analysis. This includes:
 - estimating subject-level GLM models
 - constructing group-level MA contrasts
 - generating reproducible aggregate result figures
-- planning MATLAB-to-MNE preprocessing validation
+- validating MATLAB-to-MNE preprocessing agreement
 
 The project follows an open-science structure by keeping code, documentation,
 and aggregate figures in the repository. Raw data, subject-level derivatives,
@@ -200,21 +200,25 @@ Important remaining differences include:
   should be checked before treating the MATLAB significant-channel summary as
   final.
 
-The numerical preprocessing validation is prepared but not yet completed. The
-blocking step is to run the MATLAB export script locally:
+The numerical preprocessing validation was completed locally after exporting
+MATLAB/nirs-toolbox preprocessed HbO/HbR time series. The validation compared
+131 subjects and 10,560 channel-level time series.
 
-```matlab
-run('scripts/export_matlab_preprocessed_for_validation.m')
-```
+| Metric | Value |
+| --- | ---: |
+| Median channel-wise correlation | 0.606 |
+| Minimum channel-wise correlation | -0.810 |
+| Median RMSE | 58.285 |
+| Median MAE | 45.838 |
+| Median Python/MATLAB standard-deviation ratio | 1.67e-08 |
+| Median fitted MATLAB/Python scale factor | 3.79e+07 |
+| Median normalized RMSE after scale alignment | 0.793 |
 
-After MATLAB export, the Python validation script can be run:
-
-```bash
-python scripts/validate_matlab_mne_preprocessing.py
-```
-
-The validation will compare MATLAB and MNE-Python preprocessed HbO/HbR time
-series using channel-wise correlation, MAE, RMSE, and standard-deviation ratios.
+These results suggest that the current Python preprocessing is not a strict
+numerical replication of the MATLAB/nirs-toolbox preprocessing. Some individual
+channels showed very high time-series similarity, but the overall validation
+showed both a large amplitude/unit scale difference and remaining waveform
+differences after linear scale alignment.
 
 ## Interpretation
 
@@ -224,8 +228,8 @@ MA-focused developmental comparison.
 
 At the current stage, no corrected significant group-level long-HbO channel was
 identified in the Python analysis. The result should be treated as exploratory
-until MATLAB-vs-MNE preprocessing validation and possible group-model alignment
-are completed.
+because the MATLAB-vs-MNE validation does not support strict numerical
+equivalence between preprocessing outputs.
 
 ## Reproducibility
 
@@ -248,9 +252,10 @@ docs/matlab_validation_runbook.md
 
 ## Next Steps
 
-1. Run the MATLAB preprocessing export locally.
-2. Run the Python MATLAB-vs-MNE preprocessing validation.
-3. Summarize whether the preprocessing outputs are numerically close enough.
-4. Compare the Python t-test and mixed-effects group results in the final
+1. Report the MATLAB-vs-MNE preprocessing discrepancy as a methodological
+   limitation.
+2. Investigate likely sources of the scale and waveform differences, especially
+   Beer-Lambert units/pathlength defaults and resampling details.
+3. Compare the Python t-test and mixed-effects group results in the final
    presentation.
-5. Polish the final presentation delivery.
+4. Polish the final presentation delivery.

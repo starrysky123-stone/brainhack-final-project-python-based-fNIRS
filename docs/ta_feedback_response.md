@@ -22,9 +22,9 @@ When MATLAB and MNE-Python functions are intended to perform the same
 preprocessing step, do they produce similar preprocessed HbO/HbR time series?
 ```
 
-The current repository documents issue (1) and prepares the validation scripts
-for issue (2). The remaining blocking step is to run the MATLAB export script
-locally, because the Codex environment does not have MATLAB/nirs-toolbox.
+The current repository documents issue (1), and the validation scripts for
+issue (2) have now been run locally after exporting MATLAB/nirs-toolbox
+preprocessed data.
 
 ## Issue (1): Function Availability
 
@@ -95,6 +95,19 @@ MNE-Python preprocessed FIF files using:
 - root mean squared error
 - mean and standard deviation comparison
 - Python/MATLAB standard-deviation ratio
+- fitted MATLAB/Python scale factor
+- normalized RMSE after linear scale alignment
+
+The current validation compared 131 subjects and 10,560 channel-level HbO/HbR
+time series. The median channel-wise correlation was 0.606, the median
+Python/MATLAB standard-deviation ratio was 1.67e-08, and the median fitted
+MATLAB/Python scale factor was 3.79e+07. After linear scale alignment, the
+median normalized RMSE was 0.793.
+
+These results suggest that the current Python preprocessing is not a strict
+numerical reproduction of the MATLAB/nirs-toolbox preprocessing. Some channels
+show high temporal similarity, but the overall comparison indicates both a
+large amplitude/unit scale difference and remaining waveform differences.
 
 ## Current Status
 
@@ -107,15 +120,7 @@ MNE-Python preprocessed FIF files using:
 | MATLAB-to-MNE function mapping | Documented |
 | MATLAB export script for validation | Implemented |
 | Python validation script | Implemented |
-| Actual numerical MATLAB-vs-MNE validation | Pending MATLAB export |
-
-The current blocking file is:
-
-```text
-validation/matlab_preprocessed/manifest.csv
-```
-
-This file will be created only after running the MATLAB export script locally.
+| Actual numerical MATLAB-vs-MNE validation | Completed locally |
 
 ## Suggested Reply
 
@@ -134,10 +139,15 @@ MATLAB AR-IRLS model and possible solver/default differences.
 
 For issue (2), I added a MATLAB export script and a Python validation script to
 compare the MATLAB-preprocessed HbO/HbR time series with the MNE-Python
-preprocessed FIF files. The validation will summarize channel-wise correlation,
-MAE, RMSE, and standard-deviation ratios. This validation is ready, but I still
-need to run the MATLAB export locally because MATLAB/nirs-toolbox is not
-available in the current coding environment.
+preprocessed FIF files. I ran this validation locally after exporting the
+MATLAB preprocessing outputs. Across 131 subjects and 10,560 channel-level
+comparisons, the median channel-wise correlation was 0.606, the median
+Python/MATLAB standard-deviation ratio was 1.67e-08, and the median fitted
+MATLAB/Python scale factor was 3.79e+07. After linear scale alignment, the
+median normalized RMSE was 0.793. Therefore, I would not claim that the current
+Python preprocessing is numerically equivalent to MATLAB. Instead, I treat it
+as an MNE-Python implementation inspired by the MATLAB workflow and document
+the numerical discrepancy as a methodological limitation.
 
 The main project focus remains the MA-related fNIRS activation comparison
 between lower- and upper-grade children, while the MATLAB/MNE comparison is
