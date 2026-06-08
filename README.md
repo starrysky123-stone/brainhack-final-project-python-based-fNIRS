@@ -62,6 +62,7 @@ these stages:
 7. Run a MATLAB-like mixed-effects group model for long-HbO MA contrasts.
 8. Validate MATLAB/nirs-toolbox and MNE-Python preprocessing outputs as a
    method check.
+9. Generate aggregate fNIRS topographic maps for the MA results.
 
 ## New Skills and Open Science
 
@@ -193,6 +194,7 @@ python scripts/visualization.py \
   --summary results/group_level_mixed_effects_summary_ssreg_long_hbo.csv \
   --output-prefix ma_mixed_effects \
   --figure-title "MA-Control Mixed-Effects Long-HbO"
+python scripts/plot_brain_maps.py
 ```
 
 Create the final presentation deck:

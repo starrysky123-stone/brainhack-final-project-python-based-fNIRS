@@ -23,6 +23,7 @@ FIG_COUNTS = Path("figures/ma_group_significance_counts.png")
 FIG_TOP = Path("figures/ma_top_channel_pvalues.png")
 FIG_MIXED_COUNTS = Path("figures/ma_mixed_effects_group_significance_counts.png")
 FIG_MIXED_TOP = Path("figures/ma_mixed_effects_top_channel_pvalues.png")
+FIG_BRAIN_MAPS = Path("figures/ma_mixed_effects_topographic_maps.png")
 
 BG = "F7F7F2"
 INK = "17202A"
@@ -399,6 +400,11 @@ def make_slides() -> list[Slide]:
             images=[Image(FIG_MIXED_COUNTS, 0.55, 1.45, 5.9, 5.3), Image(FIG_MIXED_TOP, 6.65, 1.45, 5.9, 5.3)],
         ),
         Slide(
+            "Topographic Brain Map",
+            "Aggregate long-HbO maps show the spatial pattern of MA-Control effects from the Python mixed-effects model.",
+            images=[Image(FIG_BRAIN_MAPS, 0.35, 1.45, 12.55, 5.55)],
+        ),
+        Slide(
             "Open Science, Reproducibility, and Privacy",
             "The repository is organized so the process is visible while child-participant data remain protected.",
             boxes=[
@@ -424,15 +430,15 @@ def make_slides() -> list[Slide]:
             boxes=[
                 TextBox(0.8, 1.75, 5.4, 4.2, [
                     "Limitations",
-                    "- Python and MATLAB outputs are not yet numerically identical",
-                    "- MATLAB preprocessing export still needs to be run",
+                    "- Python and MATLAB outputs are not numerically equivalent",
+                    "- Validation found scale and waveform differences",
                     "- Mixed-effects solver/default differences may remain",
                 ], 17, INK, fill=PALE_ORANGE),
                 TextBox(6.8, 1.75, 5.4, 4.2, [
                     "Next steps",
-                    "- Validate MATLAB vs MNE preprocessed HbO/HbR time series",
-                    "- Compare t-test and mixed-effects results in final talk",
-                    "- Finalize website report/notebook",
+                    "- Report MATLAB-vs-MNE discrepancy as a method limitation",
+                    "- Explain that the main result is the Python MA analysis",
+                    "- Review the topographic maps in the final talk",
                     "- Polish final presentation delivery",
                 ], 17, INK, fill=PALE_GREEN),
             ],

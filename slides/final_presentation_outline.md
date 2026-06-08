@@ -70,7 +70,7 @@ Primary contrast:
 6. First-level GLM with short-separation regressors.
 7. Group-level long-HbO MA contrast analysis.
 8. MATLAB-like mixed-effects group analysis.
-9. Aggregate visualization.
+9. Aggregate visualization and topographic fNIRS brain maps.
 
 ## Slide 7: MATLAB-to-Python Alignment
 
@@ -107,6 +107,7 @@ Suggested figures:
 - `figures/ma_top_channel_pvalues.png`
 - `figures/ma_mixed_effects_group_significance_counts.png`
 - `figures/ma_mixed_effects_top_channel_pvalues.png`
+- `figures/ma_mixed_effects_topographic_maps.png`
 
 Main message: current Python results are preliminary and should be interpreted
 with correction and model-difference caveats.
@@ -121,7 +122,18 @@ Suggested figures:
 Main message: the MATLAB-like mixed-effects model also did not identify
 corrected significant long-HbO channels.
 
-## Slide 11: Open Science and Privacy
+## Slide 11: Topographic Brain Map
+
+Suggested figure:
+
+- `figures/ma_mixed_effects_topographic_maps.png`
+
+Main message: the Python pipeline now produces an aggregate fNIRS topographic
+map for the MA-Control mixed-effects estimates. This is a channel-level fNIRS
+topographic visualization based on the optode montage, not a structural MRI
+activation map.
+
+## Slide 12: Open Science and Privacy
 
 - Code, documentation, and aggregate figures are shared.
 - Raw data and participant-level derivatives are not uploaded.
@@ -129,19 +141,18 @@ corrected significant long-HbO channels.
   and validation exports.
 - The pipeline is script-based so the analysis order can be followed and rerun.
 
-## Slide 12: Limitations
+## Slide 13: Limitations
 
-- Python and MATLAB statistical outputs are not yet numerically identical.
-- MATLAB preprocessing export still needs to be run for time-series validation.
+- Python and MATLAB preprocessing outputs are not numerically equivalent.
+- MATLAB-to-MNE validation found scale and waveform differences.
 - Python mixed-effects group analysis was added, but solver/default differences
   may remain.
-- Results should be treated as exploratory until validation and model alignment
-  are completed.
+- Results should be treated as exploratory because the Python pipeline is an
+  MNE-Python implementation inspired by MATLAB, not a strict MATLAB replica.
 
-## Slide 13: Next Steps
+## Slide 14: Next Steps
 
-- Run MATLAB preprocessing export.
-- Validate MATLAB vs MNE-Python preprocessed HbO/HbR time series.
-- Compare simple t-test and mixed-effects results in the final presentation.
-- Finalize website report/notebook and slides.
+- Report the MATLAB-vs-MNE discrepancy as a methodological limitation.
+- Explain that the main result is the Python MA analysis.
+- Review the topographic maps in the final presentation.
 - Polish final presentation delivery.

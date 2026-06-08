@@ -182,8 +182,15 @@ channel counts were:
 
 ![Top MA mixed-effects channel p-values](../figures/ma_mixed_effects_top_channel_pvalues.png)
 
+![MA mixed-effects topographic brain maps](../figures/ma_mixed_effects_topographic_maps.png)
+
 These figures are generated from aggregate group-level summary tables, not from
 raw participant-level time series.
+
+The topographic maps visualize mixed-effects `MA-Control` estimates across the
+32 long-distance HbO channels. They should be interpreted as fNIRS channel
+topographic maps based on the measured montage, not as structural MRI brain
+activation maps.
 
 ## MATLAB Comparison and Validation Status
 
