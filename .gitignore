@@ -25,4 +25,5 @@ results/private/
 validation/matlab_preprocessed/
 
 # Local presentation exports
+*.pptx
 slides/*.pptx
