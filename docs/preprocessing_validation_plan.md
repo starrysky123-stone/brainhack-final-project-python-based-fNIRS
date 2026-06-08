@@ -18,6 +18,12 @@ read.
 Because MATLAB is not available in the current Codex environment, the next step
 requires running an export script inside MATLAB on the local machine.
 
+For exact step-by-step commands and interpretation guidance, see:
+
+```text
+docs/matlab_validation_runbook.md
+```
+
 ## Export MATLAB Preprocessed Data
 
 Run this script in MATLAB with nirs-toolbox on the path:
