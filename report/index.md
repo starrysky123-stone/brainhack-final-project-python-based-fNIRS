@@ -253,4 +253,4 @@ docs/matlab_validation_runbook.md
 3. Summarize whether the preprocessing outputs are numerically close enough.
 4. Compare the Python t-test and mixed-effects group results in the final
    presentation.
-5. Polish the final presentation and record the project video.
+5. Polish the final presentation delivery.

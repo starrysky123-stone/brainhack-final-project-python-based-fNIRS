@@ -90,4 +90,4 @@ The repository currently tracks:
 2. Run `scripts/validate_matlab_mne_preprocessing.py` after MATLAB export.
 3. Update the report if validation results become available.
 4. Push commits to GitHub after one final privacy check.
-5. Record the final project video outside the repository.
+5. Polish the final presentation delivery.

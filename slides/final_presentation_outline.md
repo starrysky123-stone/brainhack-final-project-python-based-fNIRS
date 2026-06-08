@@ -144,4 +144,4 @@ corrected significant long-HbO channels.
 - Validate MATLAB vs MNE-Python preprocessed HbO/HbR time series.
 - Compare simple t-test and mixed-effects results in the final presentation.
 - Finalize website report/notebook and slides.
-- Record final project video.
+- Polish final presentation delivery.

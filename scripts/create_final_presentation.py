@@ -433,7 +433,7 @@ def make_slides() -> list[Slide]:
                     "- Validate MATLAB vs MNE preprocessed HbO/HbR time series",
                     "- Compare t-test and mixed-effects results in final talk",
                     "- Finalize website report/notebook",
-                    "- Record the final project video",
+                    "- Polish final presentation delivery",
                 ], 17, INK, fill=PALE_GREEN),
             ],
         ),

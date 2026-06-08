@@ -12,7 +12,6 @@ to the current repository. It is based on the local course note PDF:
 | Clear README | Present: `README.md` |
 | Website report or notebook | In progress: `report/final_report_draft.md`, `notebooks/` |
 | Slides | Present: `slides/final_presentation_outline.md`, `slides/final_presentation.pptx` |
-| Recorded project video | Not stored in repository |
 | Analysis figures | Present: `figures/` |
 
 ## README Requirements
@@ -59,5 +58,4 @@ to the current repository. It is based on the local course note PDF:
 2. Run Python MATLAB-MNE preprocessing validation after export.
 3. Turn the report draft into the final website report or notebook.
 4. Review and polish `slides/final_presentation.pptx` in PowerPoint or Keynote.
-5. Record the project video outside the repository.
-6. Push the repository to GitHub after confirming no private data are staged.
+5. Push any final commits to GitHub after confirming no private data are staged.
