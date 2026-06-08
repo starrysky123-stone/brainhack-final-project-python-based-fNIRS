@@ -134,6 +134,22 @@ pipeline currently provides a reproducible MA analysis workflow, but it does
 not reproduce the corrected significant-channel pattern from the MATLAB
 pipeline.
 
+## Figures
+
+The project currently includes two aggregate figures for the MA group-level
+results:
+
+![MA group-level significance counts](../figures/ma_group_significance_counts.png)
+
+![Top MA channel p-values](../figures/ma_top_channel_pvalues.png)
+
+These figures are generated from the group-level summary CSV tables, not from
+raw participant-level time series. They can be regenerated with:
+
+```bash
+python scripts/visualization.py
+```
+
 ## MATLAB Comparison and Validation
 
 The original MATLAB/nirs-toolbox analysis used methods that are not identical

@@ -106,7 +106,7 @@ docs/        Pipeline notes and reproducibility summaries
 notebooks/   Jupyter notebooks for demonstration and reporting
 scripts/     Python and MATLAB helper scripts for the analysis pipeline
 results/     Local output tables; ignored by Git
-figures/     Local output figures; ignored by Git
+figures/     Aggregate output figures for the report and slides
 report/      Written report drafts
 slides/      Final presentation slides
 ```
@@ -144,6 +144,12 @@ Run group-level MA analysis:
 
 ```bash
 python scripts/group_analysis.py
+```
+
+Create aggregate MA result figures:
+
+```bash
+python scripts/visualization.py
 ```
 
 After exporting MATLAB preprocessed data, run the validation check:
