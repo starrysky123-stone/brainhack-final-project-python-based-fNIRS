@@ -1,15 +1,21 @@
-# BrainHack Final Project: MNE-Python fNIRS Pipeline for MA Analysis
+# BrainHack Final Project: MA-Related fNIRS Brain Activation Differences
 
 ## Project Title
 
-MNE-Python fNIRS Analysis Pipeline for Morphological Awareness in Children
+MA-Related fNIRS Brain Activation Differences Between Lower- and Upper-Grade Children
 
 ## Project Overview
 
-This project builds an open-source Python pipeline for fNIRS analysis using
-MNE-Python and MNE-NIRS. The scientific focus is morphological awareness (MA)
-processing in children, comparing lower-grade children (Grades 1-3; `G1_3`)
-with upper-grade children (Grades 4-6; `G4_6`).
+This project examines morphological awareness (MA)-related brain activation in
+children using fNIRS. The primary scientific goal is to compare lower-grade
+children (Grades 1-3; `G1_3`) with upper-grade children (Grades 4-6; `G4_6`)
+during the MA task, using `MA-Control` as the main task contrast.
+
+As the methodological component, this project builds an open-source
+MNE-Python/MNE-NIRS analysis pipeline and develops it with reference to an
+existing MATLAB/nirs-toolbox workflow. The MATLAB comparison is used to support
+pipeline validation and interpretation, while the main research focus remains
+the MA activation difference between grade groups.
 
 The local dataset contains SNIRF files from 131 child participants. Raw and
 derived participant-level files are not uploaded to GitHub because they contain
@@ -18,8 +24,8 @@ configuration, documentation, and non-sensitive summaries.
 
 ## Main Research Question
 
-Can an MNE-Python fNIRS pipeline be used to examine MA-related brain activation
-differences between lower-grade and upper-grade children?
+Do lower-grade and upper-grade children show different fNIRS brain activation
+patterns during morphological awareness processing?
 
 The primary contrast is:
 
@@ -31,7 +37,8 @@ The main condition-level contrast is `MA-Control`.
 
 ## Current Pipeline Status
 
-The current Python pipeline has completed these stages:
+To answer the MA research question, the current Python pipeline has completed
+these stages:
 
 1. Load local SNIRF files with `mne.io.read_raw_snirf`.
 2. Rename event markers from the original SNIRF annotations:
@@ -52,7 +59,7 @@ The current Python pipeline has completed these stages:
    - `G1_3 MA-Control`
    - `G4_6 MA-Control`
    - `G4_6 minus G1_3 MA-Control`
-7. Document a MATLAB-vs-MNE preprocessing validation plan.
+7. Document a MATLAB-vs-MNE preprocessing validation plan as a method check.
 
 ## Current Results
 
@@ -74,10 +81,10 @@ Uncorrected exploratory results were:
 | G4_6 MA-Control | 1 | 0 | 0 |
 | G4_6 minus G1_3 MA-Control | 0 | 0 | 0 |
 
-These results should be interpreted as a preliminary MNE-Python implementation,
-not as a final claim about significant MA-related brain activation.
+These results should be interpreted as preliminary MA group-comparison results
+from the current MNE-Python implementation.
 
-## MATLAB Pipeline Alignment
+## Methodological Pipeline Alignment
 
 This project was developed with reference to an existing MATLAB/nirs-toolbox
 pipeline. The Python pipeline now includes two important alignment steps:
@@ -89,8 +96,8 @@ The Python and MATLAB results are not expected to be numerically identical at
 this stage. Important remaining differences include MATLAB AR-IRLS estimation,
 MATLAB mixed-effects group modeling, and possible HRF/model implementation
 differences. A separate validation step is documented to compare MATLAB and
-MNE-Python preprocessed HbO/HbR time series before interpreting statistical
-differences.
+MNE-Python preprocessed HbO/HbR time series before interpreting differences
+between MATLAB and Python statistical outputs.
 
 See:
 

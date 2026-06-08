@@ -2,25 +2,25 @@
 
 ## Title
 
-MNE-Python fNIRS Pipeline for Morphological Awareness Analysis in Children
+MA-Related fNIRS Brain Activation Differences Between Lower- and Upper-Grade Children
 
 ## Project Goal
 
-This project aims to build an fNIRS analysis pipeline based on MNE-Python and
-MNE-NIRS, and to apply the pipeline to a child language-development dataset.
-The main scientific focus is morphological awareness (MA), especially the
+This project examines morphological awareness (MA)-related brain activation in
+children using fNIRS. The main scientific goal is to compare lower-grade
+children (Grades 1-3) and upper-grade children (Grades 4-6), focusing on the
 `MA-Control` contrast.
 
 The existing analysis workflow was originally implemented in MATLAB with
-nirs-toolbox. In this project, the MATLAB workflow is used as a methodological
-reference, while the main deliverable is a Python-based open-source pipeline.
-The MATLAB comparison is treated as a validation and interpretation step, not
-as the primary research question.
+nirs-toolbox. As the methodological component of this project, an open-source
+MNE-Python/MNE-NIRS pipeline is constructed with reference to the MATLAB
+workflow. The MATLAB-Python comparison is treated as a validation and
+interpretation step, not as the primary research question.
 
 ## Research Question
 
-Can an MNE-Python fNIRS pipeline be used to examine MA-related brain activation
-differences between lower-grade and upper-grade children?
+Do lower-grade and upper-grade children show different fNIRS brain activation
+patterns during morphological awareness processing?
 
 The main group-level contrast is:
 
@@ -52,6 +52,19 @@ does not affect the current `MA-Control` analysis.
 
 Raw data and participant-level derivative files are not uploaded to GitHub
 because the dataset contains child-participant data.
+
+## Methods: Python and MATLAB Pipelines
+
+The analysis method has two connected components:
+
+1. A Python-based fNIRS pipeline using MNE-Python and MNE-NIRS.
+2. A MATLAB/nirs-toolbox reference pipeline used for methodological alignment
+   and validation.
+
+The main statistical analysis is conducted in Python for the final project.
+The MATLAB workflow is used to identify equivalent preprocessing/modeling
+steps and to understand why the two tools may produce different numerical
+results.
 
 ## Python Pipeline
 
