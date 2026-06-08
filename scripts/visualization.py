@@ -17,12 +17,17 @@ import pandas as pd
 DEFAULT_STATS = Path("results/group_level_channel_stats_ssreg_long_hbo.csv")
 DEFAULT_SUMMARY = Path("results/group_level_summary_ssreg_long_hbo.csv")
 DEFAULT_OUTPUT_DIR = Path("figures")
+DEFAULT_OUTPUT_PREFIX = "ma"
+DEFAULT_FIGURE_TITLE = "MA-Control Group-Level Long-HbO"
 
 
 COMPARISON_LABELS = {
     "G1_3 MA-Control": "G1-3\nMA-Control",
     "G4_6 MA-Control": "G4-6\nMA-Control",
     "G4_6 minus G1_3 MA-Control": "G4-6 minus G1-3\nMA-Control",
+    "G1_3 MA - Control": "G1-3\nMA-Control",
+    "G4_6 MA - Control": "G4-6\nMA-Control",
+    "G4_6 MA effect - G1_3 MA effect": "G4-6 minus G1-3\nMA-Control",
 }
 
 
@@ -41,7 +46,12 @@ def _comparison_order(values: pd.Series) -> list[str]:
     return ordered
 
 
-def plot_significance_counts(summary: pd.DataFrame, output_dir: Path) -> Path:
+def plot_significance_counts(
+    summary: pd.DataFrame,
+    output_dir: Path,
+    output_prefix: str,
+    figure_title: str,
+) -> Path:
     """Plot uncorrected and corrected significant-channel counts."""
     order = _comparison_order(summary["comparison"])
     summary = summary.set_index("comparison").loc[order].reset_index()
@@ -81,7 +91,7 @@ def plot_significance_counts(summary: pd.DataFrame, output_dir: Path) -> Path:
     for bars in (bars1, bars2, bars3):
         ax.bar_label(bars, padding=3, fontsize=9)
 
-    ax.set_title("MA-Control Group-Level Long-HbO Channel Counts")
+    ax.set_title(f"{figure_title} Channel Counts")
     ax.set_ylabel("Number of channels")
     ax.set_xticks(x)
     ax.set_xticklabels([COMPARISON_LABELS.get(name, name) for name in order])
@@ -89,19 +99,28 @@ def plot_significance_counts(summary: pd.DataFrame, output_dir: Path) -> Path:
     ax.legend(frameon=False, ncols=1)
     ax.spines[["top", "right"]].set_visible(False)
 
-    output_path = output_dir / "ma_group_significance_counts.png"
+    output_path = output_dir / f"{output_prefix}_group_significance_counts.png"
     fig.savefig(output_path, dpi=200)
     plt.close(fig)
     return output_path
 
 
-def plot_top_channels(stats: pd.DataFrame, output_dir: Path, n_top: int = 8) -> Path:
+def plot_top_channels(
+    stats: pd.DataFrame,
+    output_dir: Path,
+    output_prefix: str,
+    figure_title: str,
+    n_top: int = 8,
+) -> Path:
     """Plot the lowest-p channels for each comparison."""
     order = _comparison_order(stats["comparison"])
     color_lookup = {
         "G1_3 MA-Control": "#4C78A8",
         "G4_6 MA-Control": "#F58518",
         "G4_6 minus G1_3 MA-Control": "#54A24B",
+        "G1_3 MA - Control": "#4C78A8",
+        "G4_6 MA - Control": "#F58518",
+        "G4_6 MA effect - G1_3 MA effect": "#54A24B",
     }
 
     fig, axes = plt.subplots(
@@ -142,7 +161,7 @@ def plot_top_channels(stats: pd.DataFrame, output_dir: Path, n_top: int = 8) -> 
         ax.set_xlim(0, max(threshold + 0.25, max_x + 0.15))
         ax.spines[["top", "right"]].set_visible(False)
 
-    fig.suptitle(f"Top {n_top} Long-HbO Channels per MA Comparison", fontsize=14)
+    fig.suptitle(f"Top {n_top} Channels: {figure_title}", fontsize=14)
     fig.supxlabel("-log10(p)")
     axes[-1].text(
         threshold + 0.02,
@@ -154,13 +173,19 @@ def plot_top_channels(stats: pd.DataFrame, output_dir: Path, n_top: int = 8) -> 
         color="#444444",
     )
 
-    output_path = output_dir / "ma_top_channel_pvalues.png"
+    output_path = output_dir / f"{output_prefix}_top_channel_pvalues.png"
     fig.savefig(output_path, dpi=200)
     plt.close(fig)
     return output_path
 
 
-def build_figures(stats_path: Path, summary_path: Path, output_dir: Path) -> list[Path]:
+def build_figures(
+    stats_path: Path,
+    summary_path: Path,
+    output_dir: Path,
+    output_prefix: str,
+    figure_title: str,
+) -> list[Path]:
     _check_input(stats_path)
     _check_input(summary_path)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -183,8 +208,8 @@ def build_figures(stats_path: Path, summary_path: Path, output_dir: Path) -> lis
         raise ValueError(f"Summary table missing columns: {sorted(missing_summary)}")
 
     return [
-        plot_significance_counts(summary, output_dir),
-        plot_top_channels(stats, output_dir),
+        plot_significance_counts(summary, output_dir, output_prefix, figure_title),
+        plot_top_channels(stats, output_dir, output_prefix, figure_title),
     ]
 
 
@@ -195,12 +220,20 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--stats", type=Path, default=DEFAULT_STATS)
     parser.add_argument("--summary", type=Path, default=DEFAULT_SUMMARY)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
+    parser.add_argument("--output-prefix", default=DEFAULT_OUTPUT_PREFIX)
+    parser.add_argument("--figure-title", default=DEFAULT_FIGURE_TITLE)
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    outputs = build_figures(args.stats, args.summary, args.output_dir)
+    outputs = build_figures(
+        args.stats,
+        args.summary,
+        args.output_dir,
+        args.output_prefix,
+        args.figure_title,
+    )
     print("Wrote figures:")
     for path in outputs:
         print(f"- {path}")

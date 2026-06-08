@@ -180,6 +180,11 @@ Create aggregate MA result figures:
 
 ```bash
 python scripts/visualization.py
+python scripts/visualization.py \
+  --stats results/group_level_mixed_effects_channel_stats_ssreg_long_hbo.csv \
+  --summary results/group_level_mixed_effects_summary_ssreg_long_hbo.csv \
+  --output-prefix ma_mixed_effects \
+  --figure-title "MA-Control Mixed-Effects Long-HbO"
 ```
 
 Create the final presentation deck:

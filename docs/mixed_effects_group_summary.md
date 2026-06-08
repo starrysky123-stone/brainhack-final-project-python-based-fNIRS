@@ -77,6 +77,12 @@ The smallest uncorrected p-values were:
 These are descriptive exploratory results only. No channel survived FDR or
 Bonferroni correction.
 
+## Figures
+
+![MA mixed-effects significance counts](../figures/ma_mixed_effects_group_significance_counts.png)
+
+![Top MA mixed-effects channel p-values](../figures/ma_mixed_effects_top_channel_pvalues.png)
+
 ## Relationship to MATLAB
 
 This mixed-effects script improves alignment with the MATLAB group-level model,
@@ -98,6 +104,11 @@ Use the project conda environment:
 ```bash
 conda activate brainhack-fnirs
 python scripts/group_mixed_effects.py
+python scripts/visualization.py \
+  --stats results/group_level_mixed_effects_channel_stats_ssreg_long_hbo.csv \
+  --summary results/group_level_mixed_effects_summary_ssreg_long_hbo.csv \
+  --output-prefix ma_mixed_effects \
+  --figure-title "MA-Control Mixed-Effects Long-HbO"
 ```
 
 The script writes local tables to:

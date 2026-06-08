@@ -178,6 +178,10 @@ channel counts were:
 
 ![Top MA channel p-values](../figures/ma_top_channel_pvalues.png)
 
+![MA mixed-effects significance counts](../figures/ma_mixed_effects_group_significance_counts.png)
+
+![Top MA mixed-effects channel p-values](../figures/ma_mixed_effects_top_channel_pvalues.png)
+
 These figures are generated from aggregate group-level summary tables, not from
 raw participant-level time series.
 
