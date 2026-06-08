@@ -1,5 +1,17 @@
 # Final Presentation Outline
 
+Generated PPTX:
+
+```text
+slides/final_presentation.pptx
+```
+
+Regenerate with:
+
+```bash
+python scripts/create_final_presentation.py
+```
+
 ## Slide 1: Title
 
 MA-Related fNIRS Brain Activation Differences Between Lower- and Upper-Grade Children

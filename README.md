@@ -172,6 +172,12 @@ Create aggregate MA result figures:
 python scripts/visualization.py
 ```
 
+Create the final presentation deck:
+
+```bash
+python scripts/create_final_presentation.py
+```
+
 After exporting MATLAB preprocessed data, run the validation check:
 
 ```bash
@@ -189,6 +195,7 @@ python scripts/validate_matlab_mne_preprocessing.py
 - `docs/final_project_requirements_checklist.md`
 - `report/final_report_draft.md`
 - `slides/final_presentation_outline.md`
+- `slides/final_presentation.pptx`
 
 ## Data Availability
 
