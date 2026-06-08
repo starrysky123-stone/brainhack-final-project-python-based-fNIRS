@@ -36,6 +36,7 @@ to the current repository. It is based on the local course note PDF:
 | Clear code/notebooks | Scripts are organized by analysis stage |
 | Clear presentation | Slide outline and first PPTX deck added |
 | Data ethics and privacy | Raw data, subject-level results, and derived participant files are ignored by Git |
+| Reproducibility smoke test | `docs/reproducibility_smoke_test.md` |
 
 ## Analysis Workflow Coverage
 
