@@ -199,6 +199,7 @@ python scripts/validate_matlab_mne_preprocessing.py
 - `docs/preprocessing_validation_plan.md`
 - `docs/ta_feedback_response.md`
 - `docs/final_project_requirements_checklist.md`
+- `docs/github_submission_audit.md`
 - `report/index.md`
 - `report/final_report_draft.md`
 - `slides/final_presentation_outline.md`
