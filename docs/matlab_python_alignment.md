@@ -28,7 +28,12 @@ The Python pipeline was revised to better match the MATLAB analysis:
    - The script reads the preprocessed FIF files and identifies long HbO
      channels using MNE-NIRS.
    - Group analysis is restricted to 32 long-distance HbO channels.
-3. Wrote revised local output tables with `ssreg` in the filename.
+3. Added a MATLAB-like mixed-effects group model using statsmodels.
+   - The script fits `theta ~ -1 + Group:Condition + (1|Subject)` separately
+     for each long-HbO channel.
+   - This better matches the MATLAB group-level formula than the simpler
+     channel-wise t-test analysis.
+4. Wrote revised local output tables with `ssreg` in the filename.
 
 ## Revised Python Results
 
@@ -48,14 +53,22 @@ Revised group-level long-HbO results:
 | G4_6 MA-Control | 32 | 1 | 0 | 0 |
 | G4_6 minus G1_3 MA-Control | 32 | 0 | 0 | 0 |
 
+Mixed-effects long-HbO results:
+
+| Comparison | Channels | Uncorrected p < .05 | FDR significant | Bonferroni significant |
+| --- | ---: | ---: | ---: | ---: |
+| G1_3 MA - Control | 32 | 1 | 0 | 0 |
+| G4_6 MA - Control | 32 | 2 | 0 | 0 |
+| G4_6 MA effect - G1_3 MA effect | 32 | 0 | 0 | 0 |
+
 ## Remaining Differences
 
 Even after these revisions, the Python results still do not match the MATLAB
 FWE-significant channel pattern. The remaining likely causes are:
 
 - MATLAB uses AR-IRLS, which is not the same as MNE-NIRS `ar1`.
-- MATLAB uses a mixed-effects group model, while the current Python group-level
-  script uses channel-wise t-tests.
+- MATLAB and Python mixed-effects solvers/defaults may differ even though a
+  Python mixed-effects group model has now been added.
 - The exact MATLAB canonical HRF implementation may differ from MNE's `glover`
   model.
 - The MATLAB contrast output labels should be checked because some saved CSV

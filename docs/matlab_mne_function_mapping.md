@@ -30,7 +30,7 @@ Python implementation.
 | First-level noise model | `firstlevelglm.type = 'AR-IRLS'` | `noise_model = 'ar1'` | Not currently equivalent |
 | Short-separation regressors in GLM | `firstlevelglm.AddShortSepRegressors = true` | short-channel data added through `add_regs` | Equivalent concept, manually implemented |
 | HRF basis | `nirs.design.basis.Canonical`, `peakTime = 6` | `hrf_model = 'glover'` | Similar canonical-HRF goal, not guaranteed identical |
-| Group model | `nirs.modules.MixedEffects` | channel-wise t-tests in `scripts/group_analysis.py` | Not currently equivalent |
+| Group model | `nirs.modules.MixedEffects` | `scripts/group_mixed_effects.py` using statsmodels MixedLM | Approximate equivalent; solver/default validation needed |
 | MATLAB contrast test | `GroupStats.ttest(c)` | one-sample/Welch t-tests on first-level `MA-Control` contrasts | Related contrast goal, different statistical model |
 | 3D brain plotting | custom `plot3Dbrain_Ver2021_Li` | aggregate channel-count and p-value figures | Not equivalent; current Python figures are summary figures |
 
@@ -53,8 +53,8 @@ steps rather than basic preprocessing steps:
 
 - MATLAB `AR-IRLS` first-level GLM is not currently reproduced by the Python
   `ar1` model.
-- MATLAB mixed-effects group analysis is not currently reproduced by the
-  channel-wise Python group-level t-tests.
+- MATLAB mixed-effects group analysis is approximated with statsmodels MixedLM,
+  but exact numerical equivalence has not been validated.
 - MATLAB 3D brain plotting uses custom lab code and coordinates that are not
   currently reproduced in Python.
 

@@ -54,6 +54,13 @@ analysis:
       - "G1_3 MA-Control"
       - "G4_6 MA-Control"
       - "G4_6 minus G1_3 MA-Control"
+  mixed_effects_group:
+    beta_table: "results/first_level_betas_ssreg.csv"
+    preprocessed_input_dir: "derivatives/preprocessed"
+    long_hbo_only: true
+    output_table: "results/group_level_mixed_effects_channel_stats_ssreg_long_hbo.csv"
+    summary_table: "results/group_level_mixed_effects_summary_ssreg_long_hbo.csv"
+    alpha: 0.05
   validation:
     matlab_export_dir: "validation/matlab_preprocessed"
     python_preprocessed_dir: "derivatives/preprocessed"

@@ -26,8 +26,9 @@ The main group contrast is:
 3. Run subject-level GLM with MNE-NIRS.
 4. Estimate each participant's `MA-Control` contrast.
 5. Run group-level long-HbO channel comparisons.
-6. Generate aggregate figures for the report and slides.
-7. Validate MATLAB-vs-MNE preprocessing outputs after MATLAB export.
+6. Run a MATLAB-like mixed-effects group model for long-HbO MA contrasts.
+7. Generate aggregate figures for the report and slides.
+8. Validate MATLAB-vs-MNE preprocessing outputs after MATLAB export.
 
 ## Main Scripts
 
@@ -37,6 +38,7 @@ The main group contrast is:
 | Preprocessing | `scripts/preprocess_fnirs.py` |
 | First-level GLM | `scripts/first_level_glm.py` |
 | Group analysis | `scripts/group_analysis.py` |
+| Mixed-effects group analysis | `scripts/group_mixed_effects.py` |
 | Visualization | `scripts/visualization.py` |
 | MATLAB export | `scripts/export_matlab_preprocessed_for_validation.m` |
 | MATLAB-vs-MNE validation | `scripts/validate_matlab_mne_preprocessing.py` |

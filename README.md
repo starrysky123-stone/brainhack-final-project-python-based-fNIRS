@@ -59,7 +59,8 @@ these stages:
    - `G1_3 MA-Control`
    - `G4_6 MA-Control`
    - `G4_6 minus G1_3 MA-Control`
-7. Document a MATLAB-vs-MNE preprocessing validation plan as a method check.
+7. Run a MATLAB-like mixed-effects group model for long-HbO MA contrasts.
+8. Document a MATLAB-vs-MNE preprocessing validation plan as a method check.
 
 ## New Skills and Open Science
 
@@ -169,6 +170,12 @@ Run group-level MA analysis:
 python scripts/group_analysis.py
 ```
 
+Run MATLAB-like mixed-effects group analysis:
+
+```bash
+python scripts/group_mixed_effects.py
+```
+
 Create aggregate MA result figures:
 
 ```bash
@@ -193,6 +200,7 @@ python scripts/validate_matlab_mne_preprocessing.py
 - `docs/preprocessing_summary.md`
 - `docs/first_level_glm_summary.md`
 - `docs/group_level_summary.md`
+- `docs/mixed_effects_group_summary.md`
 - `docs/matlab_python_alignment.md`
 - `docs/matlab_mne_function_mapping.md`
 - `docs/matlab_validation_runbook.md`

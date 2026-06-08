@@ -4,6 +4,13 @@ This document summarizes the first group-level comparison for the MNE-Python
 fNIRS pipeline. Per-channel result tables are stored locally under `results/`
 and are not uploaded to GitHub.
 
+This t-test analysis is the simpler group-level analysis. A MATLAB-like
+mixed-effects group analysis is now documented separately in:
+
+```text
+docs/mixed_effects_group_summary.md
+```
+
 ## Research Contrast
 
 The primary research contrast is:

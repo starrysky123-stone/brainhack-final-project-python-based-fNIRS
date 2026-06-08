@@ -77,6 +77,7 @@ The repository currently tracks:
 | Report page present | Ready |
 | Aggregate figures present | Ready |
 | Slide outline present | Ready |
+| Mixed-effects group script present | Ready |
 | Raw data excluded | Ready |
 | Subject-level results excluded | Ready |
 | PPTX exports excluded | Ready |

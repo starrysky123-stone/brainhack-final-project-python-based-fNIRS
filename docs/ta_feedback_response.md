@@ -56,8 +56,9 @@ The main remaining non-equivalent parts are modeling/statistics steps rather
 than basic preprocessing steps:
 
 - MATLAB first-level GLM uses `AR-IRLS`; the current Python model uses `ar1`.
-- MATLAB group-level analysis uses a mixed-effects model; the current Python
-  group-level analysis uses channel-wise t-tests on subject-level contrasts.
+- MATLAB group-level analysis uses a mixed-effects model. A Python
+  mixed-effects version has now been added, while the simpler channel-wise
+  t-test analysis is retained as an exploratory comparison.
 - MATLAB 3D plotting uses custom lab plotting code; the current Python figures
   are aggregate summary figures.
 
@@ -102,6 +103,7 @@ MNE-Python preprocessed FIF files using:
 | Python MNE-Python preprocessing pipeline | Implemented |
 | First-level GLM with short-channel regressors | Implemented |
 | Long-HbO MA group-level analysis | Implemented |
+| MATLAB-like Python mixed-effects group analysis | Implemented |
 | MATLAB-to-MNE function mapping | Documented |
 | MATLAB export script for validation | Implemented |
 | Python validation script | Implemented |
@@ -125,9 +127,10 @@ For issue (1), I created a MATLAB/nirs-toolbox to MNE-Python function mapping.
 Most preprocessing steps have direct or manually implemented MNE-Python
 equivalents, such as SNIRF loading, stimulus renaming, event-count checking,
 short-channel identification, resampling, optical-density conversion,
-Beer-Lambert conversion, and task-window trimming. The parts that are not yet
-direct equivalents are mainly modeling/statistical steps, especially MATLAB
-AR-IRLS and the MATLAB mixed-effects group model.
+Beer-Lambert conversion, and task-window trimming. I also added a Python
+mixed-effects group model to better approximate the MATLAB group-level model.
+The part that is still not directly equivalent is mainly the first-level
+MATLAB AR-IRLS model and possible solver/default differences.
 
 For issue (2), I added a MATLAB export script and a Python validation script to
 compare the MATLAB-preprocessed HbO/HbR time series with the MNE-Python

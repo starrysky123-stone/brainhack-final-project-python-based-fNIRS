@@ -102,6 +102,7 @@ The current Python pipeline is script-based:
 | fNIRS preprocessing | `scripts/preprocess_fnirs.py` |
 | First-level GLM | `scripts/first_level_glm.py` |
 | Group-level MA analysis | `scripts/group_analysis.py` |
+| MATLAB-like mixed-effects group analysis | `scripts/group_mixed_effects.py` |
 | Result visualization | `scripts/visualization.py` |
 
 Preprocessing steps:
@@ -124,8 +125,13 @@ First-level GLM settings:
 - short-separation regressors: enabled
 - primary contrast: `MA-Control`
 
-Group-level analysis uses each participant's `MA-Control` contrast and focuses
-on 32 long-distance HbO channels.
+The first group-level analysis uses each participant's `MA-Control` contrast
+and focuses on 32 long-distance HbO channels. A second Python group-level
+analysis fits a MATLAB-like mixed-effects model on first-level condition betas:
+
+```text
+theta ~ -1 + Group:Condition + (1|Subject)
+```
 
 ## Results
 
@@ -156,6 +162,16 @@ pipeline provides a reproducible MA analysis workflow, but the current
 statistical result should not be presented as a direct numerical replication of
 the MATLAB/nirs-toolbox result.
 
+The MATLAB-like mixed-effects Python analysis also found no corrected
+significant long-HbO channels. All 32 channel models converged. Uncorrected
+channel counts were:
+
+| Comparison | Uncorrected p < .05 | FDR significant | Bonferroni significant |
+| --- | ---: | ---: | ---: |
+| `G1_3 MA - Control` | 1 | 0 | 0 |
+| `G4_6 MA - Control` | 2 | 0 | 0 |
+| `G4_6 MA effect - G1_3 MA effect` | 0 | 0 | 0 |
+
 ## Figures
 
 ![MA group-level significance counts](../figures/ma_group_significance_counts.png)
@@ -173,8 +189,8 @@ to the current MNE-Python implementation.
 Important remaining differences include:
 
 - MATLAB first-level GLM used AR-IRLS, while the Python pipeline uses `ar1`.
-- MATLAB group analysis used a mixed-effects model, while the current Python
-  pipeline uses channel-wise t-tests on subject-level contrasts.
+- MATLAB group analysis used a mixed-effects model. A Python mixed-effects
+  version has been added, but solver/default differences may remain.
 - HRF and model details may differ between nirs-toolbox and MNE-NIRS.
 - Some saved MATLAB contrast-table filenames and internal contrast labels
   should be checked before treating the MATLAB significant-channel summary as
@@ -216,6 +232,7 @@ python scripts/load_data.py --root-dir "/path/to/local/Anyalysis/group"
 python scripts/preprocess_fnirs.py --root-dir "/path/to/local/Anyalysis/group" --overwrite
 python scripts/first_level_glm.py
 python scripts/group_analysis.py
+python scripts/group_mixed_effects.py
 python scripts/visualization.py
 ```
 
@@ -230,6 +247,6 @@ docs/matlab_validation_runbook.md
 1. Run the MATLAB preprocessing export locally.
 2. Run the Python MATLAB-vs-MNE preprocessing validation.
 3. Summarize whether the preprocessing outputs are numerically close enough.
-4. Consider a Python mixed-effects group model to better match the MATLAB
-   group-level analysis.
+4. Compare the Python t-test and mixed-effects group results in the final
+   presentation.
 5. Polish the final presentation and record the project video.
