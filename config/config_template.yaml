@@ -54,6 +54,11 @@ analysis:
       - "G1_3 MA-Control"
       - "G4_6 MA-Control"
       - "G4_6 minus G1_3 MA-Control"
+  validation:
+    matlab_export_dir: "validation/matlab_preprocessed"
+    python_preprocessed_dir: "derivatives/preprocessed"
+    output_table: "results/matlab_mne_preprocessing_validation.csv"
+    summary_table: "results/matlab_mne_preprocessing_validation_summary.csv"
   first_level_conditions:
     - MA
     - PA
