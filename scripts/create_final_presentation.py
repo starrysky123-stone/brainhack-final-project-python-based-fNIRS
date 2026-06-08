@@ -21,6 +21,8 @@ SLIDE_H_EMU = int(SLIDE_H * EMU_PER_INCH)
 OUT = Path("slides/final_presentation.pptx")
 FIG_COUNTS = Path("figures/ma_group_significance_counts.png")
 FIG_TOP = Path("figures/ma_top_channel_pvalues.png")
+FIG_MIXED_COUNTS = Path("figures/ma_mixed_effects_group_significance_counts.png")
+FIG_MIXED_TOP = Path("figures/ma_mixed_effects_top_channel_pvalues.png")
 
 BG = "F7F7F2"
 INK = "17202A"
@@ -349,7 +351,7 @@ def make_slides() -> list[Slide]:
                 TextBox(3.45, 1.7, 2.55, 2.0, ["2", "Preprocess", "OD -> HbO/HbR, trim task window"], 16, INK, True, PALE_TEAL),
                 TextBox(6.2, 1.7, 2.55, 2.0, ["3", "First-level GLM", "MA, PA, Control + short regressors"], 16, INK, True, PALE_ORANGE),
                 TextBox(8.95, 1.7, 2.55, 2.0, ["4", "Group analysis", "Long-HbO MA-Control comparison"], 16, INK, True, PALE_GREEN),
-                TextBox(1.0, 5.0, 10.5, 0.9, ["Scripts: load_data.py -> preprocess_fnirs.py -> first_level_glm.py -> group_analysis.py -> visualization.py"], 16, TEAL, True),
+                TextBox(1.0, 5.0, 10.5, 0.9, ["Scripts: load_data.py -> preprocess_fnirs.py -> first_level_glm.py -> group_analysis.py -> group_mixed_effects.py -> visualization.py"], 15, TEAL, True),
             ],
         ),
         Slide(
@@ -360,12 +362,13 @@ def make_slides() -> list[Slide]:
                     "Aligned in Python",
                     "- Short-separation regressors added",
                     "- Long-HbO-only group analysis",
+                    "- Mixed-effects group model added",
                     "- Same MA-Control analysis focus",
                 ], 17, INK, fill=PALE_GREEN),
                 TextBox(6.7, 1.75, 5.4, 3.9, [
                     "Remaining differences",
                     "- MATLAB AR-IRLS vs Python ar1",
-                    "- MATLAB mixed-effects model vs current t-tests",
+                    "- Mixed-effects solver/default differences",
                     "- Possible HRF/model implementation differences",
                 ], 17, INK, fill=PALE_ORANGE),
             ],
@@ -377,7 +380,7 @@ def make_slides() -> list[Slide]:
                 TextBox(0.8, 1.75, 3.6, 2.8, ["SNIRF loading", "131 / 131", "All MA/Control events complete"], 21, INK, True, PALE_BLUE),
                 TextBox(4.65, 1.75, 3.6, 2.8, ["Preprocessing", "131 / 131", "13 negative-intensity warnings retained as QC caveat"], 19, INK, True, PALE_TEAL),
                 TextBox(8.5, 1.75, 3.6, 2.8, ["First-level GLM", "131 / 131", "Short-separation regressors enabled"], 20, INK, True, PALE_GREEN),
-                TextBox(1.0, 5.25, 10.5, 0.7, ["Group-level analysis: 32 long-distance HbO channels, three MA-Control comparisons."], 17, MUTED),
+                TextBox(1.0, 5.25, 10.5, 0.7, ["Group-level analysis: simple t-tests and MATLAB-like mixed-effects models across 32 long-distance HbO channels."], 17, MUTED),
             ],
         ),
         Slide(
@@ -389,6 +392,11 @@ def make_slides() -> list[Slide]:
             "Exploratory Top Channels",
             "Top channels are descriptive only; corrected results were not significant.",
             images=[Image(FIG_TOP, 0.55, 1.55, 11.9, 5.3)],
+        ),
+        Slide(
+            "Mixed-Effects MA Results",
+            "The MATLAB-like mixed-effects model also found no corrected significant long-HbO channels.",
+            images=[Image(FIG_MIXED_COUNTS, 0.55, 1.45, 5.9, 5.3), Image(FIG_MIXED_TOP, 6.65, 1.45, 5.9, 5.3)],
         ),
         Slide(
             "Open Science, Reproducibility, and Privacy",
@@ -418,12 +426,12 @@ def make_slides() -> list[Slide]:
                     "Limitations",
                     "- Python and MATLAB outputs are not yet numerically identical",
                     "- MATLAB preprocessing export still needs to be run",
-                    "- Current Python group model is simpler than MATLAB mixed effects",
+                    "- Mixed-effects solver/default differences may remain",
                 ], 17, INK, fill=PALE_ORANGE),
                 TextBox(6.8, 1.75, 5.4, 4.2, [
                     "Next steps",
                     "- Validate MATLAB vs MNE preprocessed HbO/HbR time series",
-                    "- Consider Python mixed-effects group modeling",
+                    "- Compare t-test and mixed-effects results in final talk",
                     "- Finalize website report/notebook",
                     "- Record the final project video",
                 ], 17, INK, fill=PALE_GREEN),

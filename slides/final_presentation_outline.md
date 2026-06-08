@@ -69,7 +69,8 @@ Primary contrast:
 5. Task-window trimming.
 6. First-level GLM with short-separation regressors.
 7. Group-level long-HbO MA contrast analysis.
-8. Aggregate visualization.
+8. MATLAB-like mixed-effects group analysis.
+9. Aggregate visualization.
 
 ## Slide 7: MATLAB-to-Python Alignment
 
@@ -77,9 +78,10 @@ Primary contrast:
 - Python pipeline added:
   - short-separation regressors
   - long-HbO-only group analysis
+  - mixed-effects group model
 - Remaining differences:
   - MATLAB AR-IRLS vs Python `ar1`
-  - MATLAB mixed-effects group model vs current Python channel-wise t-tests
+  - MATLAB and Python mixed-effects solver/default differences
   - possible HRF/model differences
 
 ## Slide 8: Result Summary
@@ -88,9 +90,13 @@ Primary contrast:
 - All 131 participants completed first-level GLM.
 - Current Python group-level long-HbO results did not identify corrected
   significant channels.
-- Uncorrected exploratory channel counts:
+- Simple t-test uncorrected channel counts:
   - G1_3 MA-Control: 2
   - G4_6 MA-Control: 1
+  - G4_6 minus G1_3 MA-Control: 0
+- Mixed-effects uncorrected channel counts:
+  - G1_3 MA-Control: 1
+  - G4_6 MA-Control: 2
   - G4_6 minus G1_3 MA-Control: 0
 
 ## Slide 9: Result Figures
@@ -99,11 +105,23 @@ Suggested figures:
 
 - `figures/ma_group_significance_counts.png`
 - `figures/ma_top_channel_pvalues.png`
+- `figures/ma_mixed_effects_group_significance_counts.png`
+- `figures/ma_mixed_effects_top_channel_pvalues.png`
 
 Main message: current Python results are preliminary and should be interpreted
 with correction and model-difference caveats.
 
-## Slide 10: Open Science and Privacy
+## Slide 10: Mixed-Effects Result Figures
+
+Suggested figures:
+
+- `figures/ma_mixed_effects_group_significance_counts.png`
+- `figures/ma_mixed_effects_top_channel_pvalues.png`
+
+Main message: the MATLAB-like mixed-effects model also did not identify
+corrected significant long-HbO channels.
+
+## Slide 11: Open Science and Privacy
 
 - Code, documentation, and aggregate figures are shared.
 - Raw data and participant-level derivatives are not uploaded.
@@ -111,18 +129,19 @@ with correction and model-difference caveats.
   and validation exports.
 - The pipeline is script-based so the analysis order can be followed and rerun.
 
-## Slide 11: Limitations
+## Slide 12: Limitations
 
 - Python and MATLAB statistical outputs are not yet numerically identical.
 - MATLAB preprocessing export still needs to be run for time-series validation.
-- Current Python group analysis is simpler than the MATLAB mixed-effects model.
+- Python mixed-effects group analysis was added, but solver/default differences
+  may remain.
 - Results should be treated as exploratory until validation and model alignment
   are completed.
 
-## Slide 12: Next Steps
+## Slide 13: Next Steps
 
 - Run MATLAB preprocessing export.
 - Validate MATLAB vs MNE-Python preprocessed HbO/HbR time series.
-- Consider a Python mixed-effects group model.
+- Compare simple t-test and mixed-effects results in the final presentation.
 - Finalize website report/notebook and slides.
 - Record final project video.
