@@ -61,6 +61,19 @@ these stages:
    - `G4_6 minus G1_3 MA-Control`
 7. Document a MATLAB-vs-MNE preprocessing validation plan as a method check.
 
+## New Skills and Open Science
+
+This final project focuses on learning and applying MNE-Python and MNE-NIRS for
+fNIRS data analysis. The new technical components include SNIRF loading in
+Python, fNIRS preprocessing, subject-level GLM analysis, group-level MA
+contrast testing, aggregate visualization, and MATLAB-to-MNE preprocessing
+validation planning.
+
+The repository is organized for open and reproducible analysis while protecting
+participant privacy. Code, documentation, and aggregate figures are included;
+raw data, subject information, local derivatives, and participant-level result
+tables are excluded from Git.
+
 ## Current Results
 
 All 131 local SNIRF files were loaded and preprocessed successfully.
@@ -173,7 +186,9 @@ python scripts/validate_matlab_mne_preprocessing.py
 - `docs/group_level_summary.md`
 - `docs/matlab_python_alignment.md`
 - `docs/preprocessing_validation_plan.md`
+- `docs/final_project_requirements_checklist.md`
 - `report/final_report_draft.md`
+- `slides/final_presentation_outline.md`
 
 ## Data Availability
 

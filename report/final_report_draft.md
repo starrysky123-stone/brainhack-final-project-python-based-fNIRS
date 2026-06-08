@@ -66,6 +66,18 @@ The MATLAB workflow is used to identify equivalent preprocessing/modeling
 steps and to understand why the two tools may produce different numerical
 results.
 
+## New Skills and Open Science
+
+The main new skill learned in this project is the use of MNE-Python and
+MNE-NIRS for fNIRS data analysis. This includes loading SNIRF files,
+preprocessing fNIRS signals, estimating subject-level GLM models, constructing
+group-level MA contrasts, and generating reproducible result figures.
+
+The project follows an open-science structure by keeping the analysis code,
+documentation, and aggregate figures in a public repository. Raw data,
+participant-level derivatives, subject information, and local validation
+exports are excluded from Git to protect child-participant privacy.
+
 ## Python Pipeline
 
 ### Data Loading
