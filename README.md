@@ -115,6 +115,7 @@ between MATLAB and Python statistical outputs.
 See:
 
 - `docs/matlab_python_alignment.md`
+- `docs/matlab_mne_function_mapping.md`
 - `docs/preprocessing_validation_plan.md`
 
 ## Repository Structure
@@ -191,6 +192,7 @@ python scripts/validate_matlab_mne_preprocessing.py
 - `docs/first_level_glm_summary.md`
 - `docs/group_level_summary.md`
 - `docs/matlab_python_alignment.md`
+- `docs/matlab_mne_function_mapping.md`
 - `docs/preprocessing_validation_plan.md`
 - `docs/final_project_requirements_checklist.md`
 - `report/final_report_draft.md`

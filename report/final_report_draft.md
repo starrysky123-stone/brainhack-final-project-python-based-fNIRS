@@ -66,6 +66,13 @@ The MATLAB workflow is used to identify equivalent preprocessing/modeling
 steps and to understand why the two tools may produce different numerical
 results.
 
+The MATLAB-Python comparison separates two issues. First, some MATLAB
+functions may or may not have direct MNE-Python equivalents. Second, even when
+both tools implement the same conceptual preprocessing step, different default
+parameters or algorithms may produce different numerical outputs. The current
+function mapping and remaining gaps are documented in
+`docs/matlab_mne_function_mapping.md`.
+
 ## New Skills and Open Science
 
 The main new skill learned in this project is the use of MNE-Python and

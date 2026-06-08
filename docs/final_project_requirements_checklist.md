@@ -47,6 +47,7 @@ to the current repository. It is based on the local course note PDF:
 | Group-level analysis | `scripts/group_analysis.py` |
 | Visualization | `scripts/visualization.py` |
 | MATLAB preprocessing validation | `scripts/export_matlab_preprocessed_for_validation.m`, `scripts/validate_matlab_mne_preprocessing.py` |
+| MATLAB-to-MNE function mapping | `docs/matlab_mne_function_mapping.md` |
 
 ## Remaining Tasks
 
