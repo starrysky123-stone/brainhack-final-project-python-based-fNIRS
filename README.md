@@ -118,6 +118,7 @@ See:
 - `docs/matlab_mne_function_mapping.md`
 - `docs/matlab_validation_runbook.md`
 - `docs/preprocessing_validation_plan.md`
+- `docs/ta_feedback_response.md`
 
 ## Repository Structure
 
@@ -196,6 +197,7 @@ python scripts/validate_matlab_mne_preprocessing.py
 - `docs/matlab_mne_function_mapping.md`
 - `docs/matlab_validation_runbook.md`
 - `docs/preprocessing_validation_plan.md`
+- `docs/ta_feedback_response.md`
 - `docs/final_project_requirements_checklist.md`
 - `report/index.md`
 - `report/final_report_draft.md`

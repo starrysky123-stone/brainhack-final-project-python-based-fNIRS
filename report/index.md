@@ -89,6 +89,9 @@ The function mapping is documented in
 `docs/matlab_mne_function_mapping.md`. The numerical validation procedure is
 documented in `docs/matlab_validation_runbook.md`.
 
+A concise response to the TA feedback is documented in
+`docs/ta_feedback_response.md`.
+
 ## Python Pipeline
 
 The current Python pipeline is script-based:
