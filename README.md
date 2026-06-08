@@ -1,106 +1,170 @@
-# BrainHack Final Project: Python-based fNIRS Analysis Pipeline
+# BrainHack Final Project: MNE-Python fNIRS Pipeline for MA Analysis
 
-## Project title
+## Project Title
 
-Preliminary fNIRS Analysis Pipeline and Brain Activation Comparison 
-Between Lower- and Upper-Grade Children During Language-Related Tasks
+MNE-Python fNIRS Analysis Pipeline for Morphological Awareness in Children
 
-## Project overview
+## Project Overview
 
-This project aims to build and document a Python-based fNIRS analysis 
-pipeline for analyzing developmental differences in brain activation 
-during language-related tasks.
+This project builds an open-source Python pipeline for fNIRS analysis using
+MNE-Python and MNE-NIRS. The scientific focus is morphological awareness (MA)
+processing in children, comparing lower-grade children (Grades 1-3; `G1_3`)
+with upper-grade children (Grades 4-6; `G4_6`).
 
-The data come from typically developing children. Participants will be 
-divided into two reading-development groups: lower-grade children, Grades 
-1–3, and upper-grade children, Grades 4–6. The main goal is to compare 
-brain activation patterns between these two developmental stages.
+The local dataset contains SNIRF files from 131 child participants. Raw and
+derived participant-level files are not uploaded to GitHub because they contain
+private child-participant data. This repository contains the analysis code,
+configuration, documentation, and non-sensitive summaries.
 
-## Main research question
+## Main Research Question
 
-Can a Python-based fNIRS analysis pipeline be used to compare brain 
-activation differences between lower- and upper-grade children during 
-language-related tasks?
+Can an MNE-Python fNIRS pipeline be used to examine MA-related brain activation
+differences between lower-grade and upper-grade children?
 
-## Tools and references
+The primary contrast is:
 
-This project will refer to the official MNE-Python and MNE-NIRS examples 
-for building the fNIRS analysis workflow.
+```text
+(G4_6 MA - G4_6 Control) - (G1_3 MA - G1_3 Control)
+```
 
-MNE-Python will be used as the main open-source neurophysiological data 
-analysis framework. MNE-NIRS will be considered for fNIRS-specific 
-processing, GLM analysis, and visualization.
+The main condition-level contrast is `MA-Control`.
 
-Reference:
+## Current Pipeline Status
 
-https://mne.tools/stable/index.html
+The current Python pipeline has completed these stages:
 
-## Planned analysis pipeline
+1. Load local SNIRF files with `mne.io.read_raw_snirf`.
+2. Rename event markers from the original SNIRF annotations:
+   - `1` = `MA`
+   - `2` = `PA`
+   - `3` = `Control`
+3. Validate that all participants have complete `MA` and `Control` events.
+4. Preprocess fNIRS data with MNE-Python:
+   - resample to 2 Hz
+   - convert raw intensity to optical density
+   - convert optical density to HbO/HbR concentration
+   - trim the task window with 5 seconds before and after task timing
+5. Run first-level GLM with MNE-NIRS:
+   - model `MA`, `PA`, and `Control`
+   - add short-separation channel regressors
+   - estimate the subject-level `MA-Control` contrast
+6. Run group-level long-HbO channel statistics:
+   - `G1_3 MA-Control`
+   - `G4_6 MA-Control`
+   - `G4_6 minus G1_3 MA-Control`
+7. Document a MATLAB-vs-MNE preprocessing validation plan.
 
-The planned pipeline includes:
+## Current Results
 
-1. Load fNIRS data
-2. Check stimulus markers and data quality
-3. Preprocess fNIRS signals
-4. Convert optical density to hemoglobin concentration
-5. Run subject-level GLM
-6. Run group-level comparison
-7. Visualize significant channels and brain activation results
-8. Export result tables and figures
+All 131 local SNIRF files were loaded and preprocessed successfully.
 
-## Repository structure
+| Group | Subjects |
+| --- | ---: |
+| G1_3 | 59 |
+| G4_6 | 72 |
+| Total | 131 |
+
+The current group-level Python analysis focuses on 32 long-distance HbO
+channels. No channel survived FDR or Bonferroni correction at alpha = 0.05.
+Uncorrected exploratory results were:
+
+| Comparison | Uncorrected p < .05 | FDR significant | Bonferroni significant |
+| --- | ---: | ---: | ---: |
+| G1_3 MA-Control | 2 | 0 | 0 |
+| G4_6 MA-Control | 1 | 0 | 0 |
+| G4_6 minus G1_3 MA-Control | 0 | 0 | 0 |
+
+These results should be interpreted as a preliminary MNE-Python implementation,
+not as a final claim about significant MA-related brain activation.
+
+## MATLAB Pipeline Alignment
+
+This project was developed with reference to an existing MATLAB/nirs-toolbox
+pipeline. The Python pipeline now includes two important alignment steps:
+
+- short-separation regressors at the first-level GLM stage
+- long-HbO-only filtering for group-level channel statistics
+
+The Python and MATLAB results are not expected to be numerically identical at
+this stage. Important remaining differences include MATLAB AR-IRLS estimation,
+MATLAB mixed-effects group modeling, and possible HRF/model implementation
+differences. A separate validation step is documented to compare MATLAB and
+MNE-Python preprocessed HbO/HbR time series before interpreting statistical
+differences.
+
+See:
+
+- `docs/matlab_python_alignment.md`
+- `docs/preprocessing_validation_plan.md`
+
+## Repository Structure
 
 ```text
 config/      Configuration templates
 data/        Local data folder; raw data are not uploaded to GitHub
-docs/        Possible website report folder
-notebooks/   Jupyter notebooks for project report and demonstration
-scripts/     Python scripts for the fNIRS analysis pipeline
-results/     Output tables; sensitive or large files are not uploaded
-figures/     Output figures for the report and slides
-report/      Written report or website report
+docs/        Pipeline notes and reproducibility summaries
+notebooks/   Jupyter notebooks for demonstration and reporting
+scripts/     Python and MATLAB helper scripts for the analysis pipeline
+results/     Local output tables; ignored by Git
+figures/     Local output figures; ignored by Git
+report/      Written report drafts
 slides/      Final presentation slides
-## Data availability
+```
 
-The original fNIRS data are not publicly shared in this repository because 
-they contain data from child participants and may include sensitive 
-information.
+## Reproduce the Python Pipeline
 
-Only code, documentation, example structure, and non-sensitive outputs 
-will be included.
+Create or activate the environment:
 
-## Current status
+```bash
+conda env create -f environment.yml
+conda activate brainhack-fnirs
+```
 
-This repository is currently under development for the BrainHack final 
-project. The initial goal is to build a reproducible project structure and 
-gradually implement the Python-based fNIRS analysis pipeline.
+Run the data-loading check:
 
-## Technical plan
+```bash
+python scripts/load_data.py --root-dir "/path/to/local/Anyalysis/group"
+```
 
-### MNE-Python and MNE-NIRS references
+Run preprocessing:
 
-This project will refer to the official MNE-Python and MNE-NIRS examples for building the Python-based fNIRS analysis workflow.
+```bash
+python scripts/preprocess_fnirs.py \
+  --root-dir "/path/to/local/Anyalysis/group" \
+  --overwrite
+```
 
-MNE-Python will be used as the main open-source neurophysiological data analysis framework. MNE-NIRS will also be considered because it provides fNIRS-specific functions, including GLM analysis, data quality metrics, plotting tools, and support for fNIRS file formats.
+Run first-level GLM:
 
-Main references:
+```bash
+python scripts/first_level_glm.py
+```
 
-- MNE-Python official documentation: https://mne.tools/stable/index.html
-- MNE-Python fNIRS preprocessing tutorial: https://mne.tools/stable/auto_tutorials/preprocessing/70_fnirs_processing.html
-- MNE-NIRS documentation: https://mne.tools/mne-nirs/stable/index.html
-- MNE-NIRS group-level GLM example: https://mne.tools/mne-nirs/stable/auto_examples/general/plot_12_group_glm.html
+Run group-level MA analysis:
 
-### Detailed pipeline stages
+```bash
+python scripts/group_analysis.py
+```
 
-The planned pipeline is organized into five main stages.
+After exporting MATLAB preprocessed data, run the validation check:
 
-1. Data loading: load the fNIRS data, inspect the file format, check channel information, sampling rate, stimulus markers, and participant grouping information.
+```bash
+python scripts/validate_matlab_mne_preprocessing.py
+```
 
-2. Preprocessing: check stimulus markers, identify unusable or incomplete files, convert raw intensity signals to optical density, convert optical density to hemoglobin concentration, and prepare HbO and HbR data for later analysis.
+## Main Documentation
 
-3. First-level GLM: estimate task-related brain activation for each participant. The main task conditions include MA, PA, and Control. The current priority is to focus on the MA-related contrast, especially MA versus Control within each grade group.
+- `docs/data_loading_summary.md`
+- `docs/preprocessing_summary.md`
+- `docs/first_level_glm_summary.md`
+- `docs/group_level_summary.md`
+- `docs/matlab_python_alignment.md`
+- `docs/preprocessing_validation_plan.md`
+- `report/final_report_draft.md`
 
-4. Group-level comparison: compare brain activation patterns between lower-grade children, Grades 1-3, and upper-grade children, Grades 4-6. The main group-level contrast is upper-grade MA effect minus lower-grade MA effect.
+## Data Availability
 
-5. Visualization and output: export result tables and figures, including subject-level GLM results, group-level contrast tables, significant channel tables, brain activation figures, and documentation of corrected and uncorrected results.
-
+The original fNIRS data and participant-level derivatives are not shared in
+this repository because they contain data from child participants and may
+include sensitive information. The repository is designed so that the analysis
+logic can be reviewed without uploading private data.
