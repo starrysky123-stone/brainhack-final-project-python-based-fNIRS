@@ -49,6 +49,7 @@ to the current repository. It is based on the local course note PDF:
 | Visualization | `scripts/visualization.py` |
 | Topographic brain maps | `scripts/plot_brain_maps.py` |
 | Brain-map method documentation | `docs/topographic_brain_map_method.md` |
+| Ten-minute talk plan | `docs/ten_minute_presentation_plan.md` |
 | MATLAB preprocessing validation | `scripts/export_matlab_preprocessed_for_validation.m`, `scripts/validate_matlab_mne_preprocessing.py` |
 | MATLAB-to-MNE function mapping | `docs/matlab_mne_function_mapping.md` |
 | MATLAB validation runbook | `docs/matlab_validation_runbook.md` |

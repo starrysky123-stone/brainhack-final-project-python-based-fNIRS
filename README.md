@@ -240,6 +240,7 @@ python scripts/validate_matlab_mne_preprocessing.py
 - `docs/preprocessing_validation_plan.md`
 - `docs/ta_feedback_response.md`
 - `docs/topographic_brain_map_method.md`
+- `docs/ten_minute_presentation_plan.md`
 - `docs/final_project_requirements_checklist.md`
 - `docs/github_submission_audit.md`
 - `docs/reproducibility_smoke_test.md`
