@@ -78,7 +78,9 @@ function mapping and remaining gaps are documented in
 The main new skill learned in this project is the use of MNE-Python and
 MNE-NIRS for fNIRS data analysis. This includes loading SNIRF files,
 preprocessing fNIRS signals, estimating subject-level GLM models, constructing
-group-level MA contrasts, and generating reproducible result figures.
+group-level MA contrasts, fitting a MATLAB-like mixed-effects model, validating
+MATLAB-vs-MNE preprocessing differences, and generating reproducible result
+figures and topographic fNIRS maps.
 
 The project follows an open-science structure by keeping the analysis code,
 documentation, and aggregate figures in a public repository. Raw data,
@@ -141,6 +143,15 @@ Three channel-level comparisons are computed:
 Multiple-comparison correction is applied separately for each comparison using
 FDR and Bonferroni correction.
 
+A second Python group-level analysis fits a MATLAB-like mixed-effects model on
+first-level condition betas:
+
+```text
+theta ~ -1 + Group:Condition + (1|Subject)
+```
+
+This model is used for the final topographic fNIRS maps.
+
 ## Preliminary Results
 
 The current Python group-level analysis did not identify corrected significant
@@ -168,19 +179,36 @@ pipeline.
 
 ## Figures
 
-The project currently includes two aggregate figures for the MA group-level
-results:
+The project includes aggregate figures for the MA group-level results:
 
 ![MA group-level significance counts](../figures/ma_group_significance_counts.png)
 
 ![Top MA channel p-values](../figures/ma_top_channel_pvalues.png)
+
+![MA mixed-effects significance counts](../figures/ma_mixed_effects_group_significance_counts.png)
+
+![Top MA mixed-effects channel p-values](../figures/ma_mixed_effects_top_channel_pvalues.png)
+
+![MA mixed-effects topographic brain maps](../figures/ma_mixed_effects_topographic_maps.png)
 
 These figures are generated from the group-level summary CSV tables, not from
 raw participant-level time series. They can be regenerated with:
 
 ```bash
 python scripts/visualization.py
+python scripts/plot_brain_maps.py
 ```
+
+The topographic maps were generated with the project-specific script
+`scripts/plot_brain_maps.py`. The core visualization function is MNE-Python's
+official `mne.viz.plot_topomap` function:
+
+```text
+https://mne.tools/stable/generated/mne.viz.plot_topomap.html
+```
+
+These maps should be interpreted as fNIRS channel topographic maps based on
+the measured optode montage, not structural MRI activation maps.
 
 ## MATLAB Comparison and Validation
 
@@ -188,21 +216,24 @@ The original MATLAB/nirs-toolbox analysis used methods that are not identical
 to the current MNE-Python implementation. Important differences include:
 
 - MATLAB first-level GLM used AR-IRLS, while the Python pipeline uses `ar1`.
-- MATLAB group analysis used a mixed-effects model, while the Python pipeline
-  currently uses channel-wise t-tests on subject-level contrasts.
+- MATLAB group analysis used a mixed-effects model. A MATLAB-like Python
+  mixed-effects model has been added, but solver/default differences may
+  remain.
 - HRF and model details may differ between nirs-toolbox and MNE-NIRS.
 - Some saved MATLAB contrast-table filenames and internal contrast labels
   should be checked before treating the MATLAB significant-channel summary as
   final.
 
 To address the TA's validation question, this project includes a MATLAB export
-script and a Python validation script. The next validation step is to run the
-MATLAB export script in MATLAB, export preprocessed HbO/HbR time series, and
-then compare those time series with the MNE-Python preprocessed FIF files.
+script and a Python validation script. The validation was completed locally
+after exporting MATLAB/nirs-toolbox preprocessed HbO/HbR time series.
 
-The validation will compute channel-wise correlation, mean absolute error,
-root mean squared error, and standard-deviation ratios between MATLAB and
-MNE-Python preprocessed time series.
+The validation compared 131 subjects and 10,560 channel-level time series. The
+median channel-wise correlation was 0.606, the median Python/MATLAB
+standard-deviation ratio was 1.67e-08, the median fitted MATLAB/Python scale
+factor was 3.79e+07, and the median normalized RMSE after scale alignment was
+0.793. Therefore, the current Python preprocessing should not be described as
+numerically equivalent to the MATLAB preprocessing.
 
 ## Current Interpretation
 
@@ -219,10 +250,8 @@ and guide further validation.
 
 ## Next Steps
 
-1. Run `scripts/export_matlab_preprocessed_for_validation.m` in MATLAB.
-2. Run `scripts/validate_matlab_mne_preprocessing.py` in Python.
-3. Summarize whether the MATLAB and MNE-Python preprocessed HbO/HbR time
-   series are numerically close enough for interpretation.
-4. If needed, revise the Python group-level model toward a mixed-effects
-   formulation that more closely follows the MATLAB group model.
-5. Create figures for the final report and presentation.
+1. Report the MATLAB-vs-MNE preprocessing discrepancy as a methodological
+   limitation.
+2. Investigate likely sources of the scale and waveform differences if time
+   permits.
+3. Review the local PowerPoint deck visually before presentation.

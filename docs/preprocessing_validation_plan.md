@@ -10,13 +10,23 @@ reasonably aligned before interpreting MA-related GLM results.
 
 ## Current Status
 
-The local MATLAB result files mainly contain GLM and group-level outputs
-(`SubjStats`, `GroupStats`, and contrast tables). I did not find a saved
-`hb_trim` or equivalent preprocessed time-series file that Python can directly
-read.
+The MATLAB export and Python validation have been completed locally. The
+validation compared 131 subjects and 10,560 channel-level HbO/HbR time series.
 
-Because MATLAB is not available in the current Codex environment, the next step
-requires running an export script inside MATLAB on the local machine.
+Summary:
+
+| Metric | Value |
+| --- | ---: |
+| Median channel-wise correlation | 0.606 |
+| Minimum channel-wise correlation | -0.810 |
+| Median Python/MATLAB standard-deviation ratio | 1.67e-08 |
+| Median fitted MATLAB/Python scale factor | 3.79e+07 |
+| Median normalized RMSE after scale alignment | 0.793 |
+
+The validation does not support strict numerical equivalence between the
+current MNE-Python preprocessing and the MATLAB/nirs-toolbox preprocessing.
+Instead, it shows a large amplitude/unit scale difference and remaining
+waveform differences after scale alignment.
 
 For exact step-by-step commands and interpretation guidance, see:
 
@@ -76,6 +86,8 @@ The script computes channel-wise:
 - root mean squared error (RMSE)
 - mean and standard deviation in both pipelines
 - Python/MATLAB standard-deviation ratio
+- fitted MATLAB/Python scale factor
+- normalized RMSE after linear scale alignment
 
 The validation outputs are saved locally:
 

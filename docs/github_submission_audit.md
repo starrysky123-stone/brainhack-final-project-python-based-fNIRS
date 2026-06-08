@@ -51,6 +51,7 @@ final_presentation.pptx
 results/
 scripts/__pycache__/
 slides/final_presentation.pptx
+validation/
 ```
 
 This is expected. These paths may contain private data, participant-level
@@ -78,16 +79,14 @@ The repository currently tracks:
 | Aggregate figures present | Ready |
 | Slide outline present | Ready |
 | Mixed-effects group script present | Ready |
+| Topographic brain maps present | Ready |
 | Raw data excluded | Ready |
 | Subject-level results excluded | Ready |
 | PPTX exports excluded | Ready |
-| MATLAB validation result | Pending MATLAB export |
+| MATLAB validation result | Completed locally and documented |
 
 ## Remaining Before Final Submission
 
-1. Run MATLAB preprocessing export locally if numerical validation is required
-   before final presentation.
-2. Run `scripts/validate_matlab_mne_preprocessing.py` after MATLAB export.
-3. Update the report if validation results become available.
-4. Push commits to GitHub after one final privacy check.
-5. Polish the final presentation delivery.
+1. Review `slides/final_presentation.pptx` visually in PowerPoint or Keynote.
+2. Push commits to GitHub after one final privacy check.
+3. Polish the final presentation delivery.

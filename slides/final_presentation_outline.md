@@ -133,6 +133,9 @@ map for the MA-Control mixed-effects estimates. This is a channel-level fNIRS
 topographic visualization based on the optode montage, not a structural MRI
 activation map.
 
+Method note: the plotting script is project-specific, but the core
+visualization function is MNE-Python's official `mne.viz.plot_topomap`.
+
 ## Slide 12: Open Science and Privacy
 
 - Code, documentation, and aggregate figures are shared.

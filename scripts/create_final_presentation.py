@@ -403,6 +403,17 @@ def make_slides() -> list[Slide]:
             "Topographic Brain Map",
             "Aggregate long-HbO maps show the spatial pattern of MA-Control effects from the Python mixed-effects model.",
             images=[Image(FIG_BRAIN_MAPS, 0.35, 1.45, 12.55, 5.55)],
+            boxes=[
+                TextBox(
+                    0.75,
+                    6.82,
+                    11.3,
+                    0.32,
+                    ["Generated with MNE-Python mne.viz.plot_topomap using the measured fNIRS channel montage."],
+                    11,
+                    MUTED,
+                )
+            ],
         ),
         Slide(
             "Open Science, Reproducibility, and Privacy",

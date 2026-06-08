@@ -28,7 +28,8 @@ The main group contrast is:
 5. Run group-level long-HbO channel comparisons.
 6. Run a MATLAB-like mixed-effects group model for long-HbO MA contrasts.
 7. Generate aggregate figures for the report and slides.
-8. Validate MATLAB-vs-MNE preprocessing outputs after MATLAB export.
+8. Generate aggregate fNIRS topographic brain maps.
+9. Validate MATLAB-vs-MNE preprocessing outputs after MATLAB export.
 
 ## Main Scripts
 
@@ -40,11 +41,15 @@ The main group contrast is:
 | Group analysis | `scripts/group_analysis.py` |
 | Mixed-effects group analysis | `scripts/group_mixed_effects.py` |
 | Visualization | `scripts/visualization.py` |
+| Topographic brain maps | `scripts/plot_brain_maps.py` |
 | MATLAB export | `scripts/export_matlab_preprocessed_for_validation.m` |
 | MATLAB-vs-MNE validation | `scripts/validate_matlab_mne_preprocessing.py` |
 
 ## Current Status
 
 The Python MA analysis pipeline is implemented and has been run on the local
-dataset. The MATLAB-vs-MNE numerical validation is prepared but still pending
-MATLAB export.
+dataset. MATLAB-vs-MNE preprocessing validation has also been completed
+locally. The validation found that the current MNE-Python preprocessing is not
+a strict numerical replication of the MATLAB/nirs-toolbox preprocessing, so the
+MATLAB comparison is treated as a methodological limitation rather than as the
+main scientific result.

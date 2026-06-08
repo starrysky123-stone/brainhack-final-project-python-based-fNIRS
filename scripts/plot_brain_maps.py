@@ -3,6 +3,9 @@
 The maps use the local fNIRS montage stored in the preprocessed FIF files and
 the long-HbO mixed-effects group statistics. The output figures are aggregate
 visualizations and do not contain participant-level data.
+
+The core visualization call is MNE-Python's ``mne.viz.plot_topomap``:
+https://mne.tools/stable/generated/mne.viz.plot_topomap.html
 """
 
 from __future__ import annotations

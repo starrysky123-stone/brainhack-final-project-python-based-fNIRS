@@ -192,6 +192,18 @@ The topographic maps visualize mixed-effects `MA-Control` estimates across the
 topographic maps based on the measured montage, not as structural MRI brain
 activation maps.
 
+The plotting code was written for this project in `scripts/plot_brain_maps.py`.
+The core visualization function is MNE-Python's official
+`mne.viz.plot_topomap`, using the channel locations stored in the preprocessed
+FIF files and the mixed-effects estimates from the Python group analysis:
+
+```text
+https://mne.tools/stable/generated/mne.viz.plot_topomap.html
+```
+
+The detailed brain-map method note is available in
+`docs/topographic_brain_map_method.md`.
+
 ## MATLAB Comparison and Validation Status
 
 The original MATLAB/nirs-toolbox workflow used methods that are not identical

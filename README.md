@@ -100,6 +100,24 @@ Uncorrected exploratory results were:
 These results should be interpreted as preliminary MA group-comparison results
 from the current MNE-Python implementation.
 
+## Topographic Brain Maps
+
+The project includes aggregate fNIRS topographic maps generated from the
+Python mixed-effects `MA-Control` estimates. The plotting script is project
+specific, but the core visualization function is the official MNE-Python
+`mne.viz.plot_topomap` function:
+
+```text
+https://mne.tools/stable/generated/mne.viz.plot_topomap.html
+```
+
+The maps use the long-distance HbO channel montage stored in the preprocessed
+FIF files and visualize 32 channel-level mixed-effects estimates. They should
+be interpreted as fNIRS optode/channel topographic maps, not structural MRI
+activation maps.
+
+See `docs/topographic_brain_map_method.md` for the detailed plotting method.
+
 ## Methodological Pipeline Alignment
 
 This project was developed with reference to an existing MATLAB/nirs-toolbox
@@ -221,6 +239,7 @@ python scripts/validate_matlab_mne_preprocessing.py
 - `docs/matlab_validation_runbook.md`
 - `docs/preprocessing_validation_plan.md`
 - `docs/ta_feedback_response.md`
+- `docs/topographic_brain_map_method.md`
 - `docs/final_project_requirements_checklist.md`
 - `docs/github_submission_audit.md`
 - `docs/reproducibility_smoke_test.md`

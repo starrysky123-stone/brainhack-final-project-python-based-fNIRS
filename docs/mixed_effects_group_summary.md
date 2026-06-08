@@ -83,6 +83,8 @@ Bonferroni correction.
 
 ![Top MA mixed-effects channel p-values](../figures/ma_mixed_effects_top_channel_pvalues.png)
 
+![MA mixed-effects topographic brain maps](../figures/ma_mixed_effects_topographic_maps.png)
+
 ## Relationship to MATLAB
 
 This mixed-effects script improves alignment with the MATLAB group-level model,
@@ -95,7 +97,8 @@ Remaining differences include:
 - MATLAB and Python HRF implementations may differ.
 - MATLAB/nirs-toolbox and statsmodels may estimate mixed-effects models with
   different numerical solvers and defaults.
-- MATLAB-vs-MNE preprocessing validation is still pending MATLAB export.
+- MATLAB-vs-MNE preprocessing validation has been completed locally and found
+  scale and waveform differences between preprocessing outputs.
 
 ## Reproduce This Step
 
@@ -109,6 +112,7 @@ python scripts/visualization.py \
   --summary results/group_level_mixed_effects_summary_ssreg_long_hbo.csv \
   --output-prefix ma_mixed_effects \
   --figure-title "MA-Control Mixed-Effects Long-HbO"
+python scripts/plot_brain_maps.py
 ```
 
 The script writes local tables to:
