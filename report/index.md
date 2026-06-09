@@ -220,24 +220,37 @@ Important remaining differences include:
   final.
 
 The numerical preprocessing validation was completed locally after exporting
-MATLAB/nirs-toolbox preprocessed HbO/HbR time series. The validation compared
-131 subjects and 10,560 channel-level time series.
+MATLAB/nirs-toolbox preprocessed HbO/HbR time series. Following TA feedback,
+the validation was revised to first diagnose temporal alignment and then
+compare arrays without using interpolation as the primary validation step. One
+duplicate MATLAB manifest row was dropped, leaving 131 subjects and 10,480
+channel-level comparisons.
 
 | Metric | Value |
 | --- | ---: |
-| Median channel-wise correlation | 0.606 |
-| Minimum channel-wise correlation | -0.810 |
-| Median RMSE | 58.285 |
-| Median MAE | 45.838 |
+| MATLAB manifest rows / duplicate subject rows | 132 / 1 |
+| Subjects compared | 131 |
+| Channel-level comparisons | 10,480 |
+| Subjects with same number of time points | 0 |
+| Subjects with close common time points | 14 |
+| Median max absolute time difference | 21.0 s |
+| Maximum absolute time difference | 481.5 s |
+| Channels exactly equal | 0 |
+| Channels unit-aware `allclose` | 0 |
+| Sample-index-aligned median correlation | 0.993 |
+| Sample-index-aligned minimum correlation | -0.233 |
+| Median RMSE | 58.214 |
+| Median MAE | 45.776 |
 | Median Python/MATLAB standard-deviation ratio | 1.67e-08 |
-| Median fitted MATLAB/Python scale factor | 3.79e+07 |
-| Median normalized RMSE after scale alignment | 0.793 |
+| Interpolated median correlation, secondary diagnostic | 0.602 |
+| Exploratory fitted MATLAB/Python scale factor | 5.95e+07 |
 
 These results suggest that the current Python preprocessing is not a strict
-numerical replication of the MATLAB/nirs-toolbox preprocessing. Some individual
-channels showed very high time-series similarity, but the overall validation
-showed both a large amplitude/unit scale difference and remaining waveform
-differences after linear scale alignment.
+numerical replication of the MATLAB/nirs-toolbox preprocessing. The refined
+validation shows three separate issues: temporal grids differ, no channel
+passes exact or current unit-aware closeness checks, and the signal scale differs
+substantially. The high sample-index-aligned correlation is therefore treated as
+a shape diagnostic, not as proof of numerical equivalence.
 
 ## Interpretation
 

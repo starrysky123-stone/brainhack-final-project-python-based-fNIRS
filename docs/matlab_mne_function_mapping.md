@@ -90,13 +90,17 @@ The repository includes two scripts for this validation:
 
 The validation metrics are:
 
-- channel-wise correlation
+- temporal-alignment diagnostics
+- exact `np.array_equal`
+- unit-aware `np.allclose`
+- maximum absolute difference
 - mean absolute error
 - root mean squared error
 - mean and standard deviation in each pipeline
 - Python/MATLAB standard-deviation ratio
-- fitted MATLAB/Python scale factor
-- normalized RMSE after linear scale alignment
+- sample-index-aligned correlation as a shape diagnostic
+- interpolated correlation as a secondary diagnostic only
+- fitted MATLAB/Python scale factor as an exploratory diagnostic only
 
 ## Current Project Status
 
@@ -106,30 +110,42 @@ different stages:
 | Feedback issue | Current status |
 | --- | --- |
 | Function mapping | Mostly documented; this file records the current mapping and gaps |
-| Numerical validation | Completed locally for 131 subjects and 10,560 channel-level comparisons |
+| Numerical validation | Completed locally and refined after TA feedback |
 
 ## Current Validation Result
 
 After exporting the MATLAB/nirs-toolbox preprocessed HbO/HbR time series, the
-Python validation compared 131 subjects and 10,560 channel-level time series.
+Python validation was revised to avoid treating interpolation/correlation as
+the primary validation criterion. It now first checks temporal alignment and
+then evaluates exact equality, unit-aware closeness, and absolute differences.
+After dropping one duplicate MATLAB manifest row, the refined validation
+compared 131 subjects and 10,480 channel-level time series.
 
 Summary:
 
 | Metric | Value |
 | --- | ---: |
+| MATLAB manifest rows / duplicate subject rows | 132 / 1 |
 | Subjects compared | 131 |
-| Channel-level comparisons | 10,560 |
-| Median channel-wise correlation | 0.606 |
-| Minimum channel-wise correlation | -0.810 |
+| Channel-level comparisons | 10,480 |
+| Subjects with same number of time points | 0 |
+| Subjects with close common time points | 14 |
+| Median max absolute time difference | 21.0 s |
+| Maximum absolute time difference | 481.5 s |
+| Channels exactly equal | 0 |
+| Channels unit-aware `allclose` | 0 |
+| Sample-index-aligned median correlation | 0.993 |
+| Sample-index-aligned minimum correlation | -0.233 |
 | Median Python/MATLAB standard-deviation ratio | 1.67e-08 |
-| Median fitted MATLAB/Python scale factor | 3.79e+07 |
-| Median normalized RMSE after scale alignment | 0.793 |
+| Interpolated median correlation, secondary diagnostic | 0.602 |
+| Exploratory fitted MATLAB/Python scale factor | 5.95e+07 |
 
 This indicates that the current MNE-Python preprocessing is not a strict
-numerical replication of the MATLAB/nirs-toolbox preprocessing. Some individual
-channels show very high temporal similarity, but the overall validation shows a
-large amplitude/unit scale difference and meaningful residual waveform
-differences after scale alignment.
+numerical replication of the MATLAB/nirs-toolbox preprocessing. The refined
+validation shows temporal-grid differences, no exact or current unit-aware
+array closeness, and a large amplitude/unit scale difference. The high
+sample-index-aligned correlation is useful as a shape diagnostic, but it is not
+evidence of numerical equivalence.
 
 The MA activation comparison can still be presented as an MNE-Python analysis
 pipeline inspired by the MATLAB workflow. However, the report should not claim

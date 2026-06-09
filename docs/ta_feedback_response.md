@@ -90,24 +90,34 @@ docs/matlab_validation_runbook.md
 The validation compares MATLAB-exported preprocessed HbO/HbR CSV files with the
 MNE-Python preprocessed FIF files using:
 
-- channel-wise correlation
+- temporal-alignment diagnostics
+- `np.array_equal`
+- unit-aware `np.allclose`
+- maximum absolute difference
 - mean absolute error
 - root mean squared error
 - mean and standard deviation comparison
 - Python/MATLAB standard-deviation ratio
-- fitted MATLAB/Python scale factor
-- normalized RMSE after linear scale alignment
+- interpolated metrics as secondary diagnostics only
+- fitted MATLAB/Python scale factor as an exploratory diagnostic only
 
-The current validation compared 131 subjects and 10,560 channel-level HbO/HbR
-time series. The median channel-wise correlation was 0.606, the median
-Python/MATLAB standard-deviation ratio was 1.67e-08, and the median fitted
-MATLAB/Python scale factor was 3.79e+07. After linear scale alignment, the
-median normalized RMSE was 0.793.
+After TA feedback, I revised the validation so interpolation is no longer the
+primary validation criterion. The refined validation first checks temporal
+alignment and then performs sample-index-aligned, unit-aware array comparisons.
+After dropping one duplicate MATLAB manifest row, the current validation
+compared 131 subjects and 10,480 channel-level HbO/HbR time series. No subjects
+had identical MATLAB/Python time-grid lengths, only 14 subjects had close
+common time points, and no channel was exactly equal or unit-aware `allclose`
+under the current default tolerances. The sample-index-aligned median
+correlation was 0.993, while the interpolated median correlation was 0.602 as a
+secondary diagnostic. The median Python/MATLAB standard-deviation ratio was
+1.67e-08.
 
 These results suggest that the current Python preprocessing is not a strict
-numerical reproduction of the MATLAB/nirs-toolbox preprocessing. Some channels
-show high temporal similarity, but the overall comparison indicates both a
-large amplitude/unit scale difference and remaining waveform differences.
+numerical reproduction of the MATLAB/nirs-toolbox preprocessing. The overall
+comparison indicates temporal-grid differences and a large amplitude/unit scale
+difference. The high sample-index-aligned correlation is treated as a shape
+diagnostic, not as proof of numerical equivalence.
 
 ## Current Status
 
@@ -139,15 +149,19 @@ MATLAB AR-IRLS model and possible solver/default differences.
 
 For issue (2), I added a MATLAB export script and a Python validation script to
 compare the MATLAB-preprocessed HbO/HbR time series with the MNE-Python
-preprocessed FIF files. I ran this validation locally after exporting the
-MATLAB preprocessing outputs. Across 131 subjects and 10,560 channel-level
-comparisons, the median channel-wise correlation was 0.606, the median
-Python/MATLAB standard-deviation ratio was 1.67e-08, and the median fitted
-MATLAB/Python scale factor was 3.79e+07. After linear scale alignment, the
-median normalized RMSE was 0.793. Therefore, I would not claim that the current
-Python preprocessing is numerically equivalent to MATLAB. Instead, I treat it
-as an MNE-Python implementation inspired by the MATLAB workflow and document
-the numerical discrepancy as a methodological limitation.
+preprocessed FIF files. Your feedback helped me revise the validation logic:
+instead of interpolating Python values onto MATLAB time points as the main
+comparison, I now first report temporal alignment, then evaluate
+sample-index-aligned `np.array_equal`, unit-aware `np.allclose`, and maximum
+absolute differences. Interpolated correlation and fitted scaling are kept only
+as secondary diagnostics. After dropping one duplicate MATLAB manifest row, the
+refined validation compared 131 subjects and 10,480 channel-level comparisons.
+No subjects had identical time-grid lengths, only 14 subjects had close common
+time points, and no channel passed exact equality or the current unit-aware
+`allclose` tolerance. Therefore, I would not claim that the current Python
+preprocessing is numerically equivalent to MATLAB. Instead, I treat it as an
+MNE-Python implementation inspired by the MATLAB workflow and document the
+temporal and unit/scale discrepancies as methodological limitations.
 
 The main project focus remains the MA-related fNIRS activation comparison
 between lower- and upper-grade children, while the MATLAB/MNE comparison is

@@ -10,23 +10,37 @@ reasonably aligned before interpreting MA-related GLM results.
 
 ## Current Status
 
-The MATLAB export and Python validation have been completed locally. The
-validation compared 131 subjects and 10,560 channel-level HbO/HbR time series.
+The MATLAB export and Python validation have been completed locally. Following
+TA feedback, the validation was refined so interpolation is no longer the
+primary validation criterion. The script now diagnoses temporal alignment first
+and then performs sample-index-aligned, unit-aware array comparisons. After
+dropping one duplicate MATLAB manifest row, the validation compared 131 subjects
+and 10,480 channel-level HbO/HbR time series.
 
 Summary:
 
 | Metric | Value |
 | --- | ---: |
-| Median channel-wise correlation | 0.606 |
-| Minimum channel-wise correlation | -0.810 |
+| MATLAB manifest rows / duplicate subject rows | 132 / 1 |
+| Subjects with same number of time points | 0 |
+| Subjects with close common time points | 14 |
+| Median max absolute time difference | 21.0 s |
+| Maximum absolute time difference | 481.5 s |
+| Channels exactly equal | 0 |
+| Channels unit-aware `allclose` | 0 |
+| Sample-index-aligned median correlation | 0.993 |
+| Sample-index-aligned minimum correlation | -0.233 |
+| Median maximum absolute difference | 205.317 |
+| Median RMSE | 58.214 |
+| Median MAE | 45.776 |
 | Median Python/MATLAB standard-deviation ratio | 1.67e-08 |
-| Median fitted MATLAB/Python scale factor | 3.79e+07 |
-| Median normalized RMSE after scale alignment | 0.793 |
+| Interpolated median correlation, secondary diagnostic | 0.602 |
+| Exploratory fitted MATLAB/Python scale factor | 5.95e+07 |
 
 The validation does not support strict numerical equivalence between the
 current MNE-Python preprocessing and the MATLAB/nirs-toolbox preprocessing.
-Instead, it shows a large amplitude/unit scale difference and remaining
-waveform differences after scale alignment.
+Instead, it shows temporal-grid differences, no exact or current unit-aware
+array closeness, and a large amplitude/unit scale difference.
 
 For exact step-by-step commands and interpretation guidance, see:
 
@@ -81,13 +95,17 @@ derivatives/preprocessed/<group>/<subject>/<subject>_hbo_hbr_raw.fif
 
 The script computes channel-wise:
 
+- time-grid alignment diagnostics
+- `np.array_equal`
+- unit-aware `np.allclose`
+- maximum absolute difference
 - correlation
 - mean absolute error (MAE)
 - root mean squared error (RMSE)
 - mean and standard deviation in both pipelines
 - Python/MATLAB standard-deviation ratio
-- fitted MATLAB/Python scale factor
-- normalized RMSE after linear scale alignment
+- interpolated metrics as secondary diagnostics only
+- fitted MATLAB/Python scale factor as an exploratory diagnostic only
 
 The validation outputs are saved locally:
 

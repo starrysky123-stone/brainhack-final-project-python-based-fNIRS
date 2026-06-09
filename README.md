@@ -126,13 +126,18 @@ pipeline. The Python pipeline now includes two important alignment steps:
 - short-separation regressors at the first-level GLM stage
 - long-HbO-only filtering for group-level channel statistics
 
-The Python and MATLAB results are not numerically identical. The local
-preprocessing validation compared 131 subjects and 10,560 channel-level HbO/HbR
-time series. The median channel-wise correlation was 0.606, the median
-Python/MATLAB standard-deviation ratio was 1.67e-08, and the median normalized
-RMSE after linear scale alignment was 0.793. These results indicate a large
-amplitude/unit scale difference and remaining waveform differences. Therefore,
-the current Python pipeline should be interpreted as a transparent MNE-Python
+The Python and MATLAB results are not numerically identical. Following TA
+feedback, the local preprocessing validation now separates temporal alignment
+from numerical value comparison instead of using interpolation as the primary
+validation criterion. The refined validation compared 131 subjects and 10,480
+channel-level HbO/HbR time series after dropping one duplicate MATLAB manifest
+row. No subjects had identical time-grid lengths, and only 14 subjects had
+common time points that were close under the current tolerance. No channel was
+exactly equal or unit-aware `allclose` under the current default tolerances.
+The sample-index-aligned median correlation was 0.993, but this is interpreted
+only as a shape diagnostic. The median Python/MATLAB standard-deviation ratio
+was 1.67e-08, indicating a major unit/scale mismatch. Therefore, the current
+Python pipeline should be interpreted as a transparent MNE-Python
 implementation inspired by the MATLAB workflow, not as a strict numerical
 replication of the MATLAB/nirs-toolbox pipeline.
 

@@ -133,47 +133,66 @@ The validation summary reports:
 
 | Metric | Meaning |
 | --- | --- |
+| `manifest_n_rows` | Number of rows in the MATLAB export manifest before duplicate removal |
+| `manifest_n_duplicate_subject_rows` | Duplicate `(group, subject)` manifest rows dropped before validation |
 | `n_subjects` | Number of participants successfully compared |
 | `n_channel_comparisons` | Number of channel-level MATLAB/Python comparisons |
-| `median_correlation` | Overall time-series shape similarity |
-| `min_correlation` | Worst channel-level correlation |
+| `n_subjects_same_n_times` | Number of participants with identical MATLAB/Python time-grid lengths |
+| `n_subjects_time_allclose` | Number of participants whose common time points pass `np.allclose` |
+| `median_max_abs_time_diff_common` | Median maximum absolute time difference over common sample indices |
+| `n_array_equal` | Number of channel arrays passing exact `np.array_equal` |
+| `n_allclose` | Number of channel arrays passing unit-aware `np.allclose` with current tolerances |
+| `median_correlation` | Sample-index-aligned time-series shape similarity; diagnostic only |
+| `min_correlation` | Worst sample-index-aligned channel correlation |
+| `median_max_abs_diff` | Typical maximum absolute difference between aligned arrays |
 | `median_rmse` | Typical absolute numerical disagreement scale |
 | `median_mae` | Typical absolute error |
 | `median_std_ratio_python_over_matlab` | Whether Python and MATLAB signal amplitudes have similar variability |
-| `median_fitted_scale_matlab_per_python` | Typical fitted scale factor needed to place Python signals on the MATLAB scale |
-| `median_scaled_nrmse_by_matlab_std` | Typical residual error after linear scale alignment, normalized by MATLAB standard deviation |
+| `median_interpolated_correlation` | Secondary diagnostic after interpolating Python values to MATLAB time points |
+| `median_exploratory_fitted_scale_matlab_per_python` | Exploratory scale diagnostic, not a validation criterion |
 
-High correlations would suggest that the preprocessing outputs are temporally
-similar. RMSE/MAE and standard-deviation ratios help determine whether the
-signals are also similar in scale.
+The primary validation criteria are the temporal-alignment fields,
+`np.array_equal`, `np.allclose`, and absolute differences under an explicit unit
+assumption. Correlation and fitted scaling are diagnostics only; they can
+obscure time-grid or unit discrepancies.
 
 ## Current Local Validation Result
 
-The MATLAB export and Python validation were completed locally. The validation
-compared 131 subjects and 10,560 channel-level HbO/HbR time series.
+The MATLAB export and Python validation were completed locally. After dropping
+one duplicate MATLAB manifest row, the validation compared 131 subjects and
+10,480 channel-level HbO/HbR time series.
 
 Summary:
 
 | Metric | Value |
 | --- | ---: |
+| MATLAB manifest rows / duplicate subject rows | 132 / 1 |
 | Subjects compared | 131 |
-| Channel-level comparisons | 10,560 |
-| Median channel-wise correlation | 0.606 |
-| Minimum channel-wise correlation | -0.810 |
-| Median RMSE | 58.285 |
-| Median MAE | 45.838 |
+| Channel-level comparisons | 10,480 |
+| Subjects with same number of time points | 0 |
+| Subjects with close common time points | 14 |
+| Median max absolute time difference | 21.0 s |
+| Maximum absolute time difference | 481.5 s |
+| Channels exactly equal | 0 |
+| Channels unit-aware `allclose` | 0 |
+| Sample-index-aligned median correlation | 0.993 |
+| Sample-index-aligned minimum correlation | -0.233 |
+| Median maximum absolute difference | 205.317 |
+| Median RMSE | 58.214 |
+| Median MAE | 45.776 |
 | Median Python/MATLAB standard-deviation ratio | 1.67e-08 |
-| Median fitted MATLAB/Python scale factor | 3.79e+07 |
-| Median normalized RMSE after scale alignment | 0.793 |
+| Interpolated median correlation, secondary diagnostic | 0.602 |
+| Exploratory fitted MATLAB/Python scale factor | 5.95e+07 |
 
 Interpretation:
 
 The current Python preprocessing output is not numerically equivalent to the
-MATLAB/nirs-toolbox preprocessing output. The validation shows a large
-amplitude/unit scale difference and remaining waveform disagreement after
-linear scale alignment. Therefore, the Python pipeline should be described as a
-transparent MNE-Python implementation based on the MATLAB workflow, not as a
-bitwise or numerically matched reproduction of the MATLAB pipeline.
+MATLAB/nirs-toolbox preprocessing output. The refined validation shows temporal
+grid differences, no exact or current unit-aware array closeness, and a large
+amplitude/unit scale difference. Therefore, the Python pipeline should be
+described as a transparent MNE-Python implementation based on the MATLAB
+workflow, not as a bitwise or numerically matched reproduction of the MATLAB
+pipeline.
 
 ## Suggested Wording for the Report
 

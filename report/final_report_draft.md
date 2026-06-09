@@ -228,12 +228,17 @@ To address the TA's validation question, this project includes a MATLAB export
 script and a Python validation script. The validation was completed locally
 after exporting MATLAB/nirs-toolbox preprocessed HbO/HbR time series.
 
-The validation compared 131 subjects and 10,560 channel-level time series. The
-median channel-wise correlation was 0.606, the median Python/MATLAB
-standard-deviation ratio was 1.67e-08, the median fitted MATLAB/Python scale
-factor was 3.79e+07, and the median normalized RMSE after scale alignment was
-0.793. Therefore, the current Python preprocessing should not be described as
-numerically equivalent to the MATLAB preprocessing.
+Following TA feedback, the validation was revised to first diagnose temporal
+alignment and then compare arrays without using interpolation as the primary
+validation step. One duplicate MATLAB manifest row was dropped, leaving 131
+subjects and 10,480 channel-level comparisons. No subjects had identical
+time-grid lengths, only 14 subjects had close common time points, and no
+channel was exactly equal or unit-aware `allclose` under the current default
+tolerances. The sample-index-aligned median correlation was 0.993, but this is
+treated only as a shape diagnostic. The median Python/MATLAB standard-deviation
+ratio was 1.67e-08, indicating a large unit/scale mismatch. Therefore, the
+current Python preprocessing should not be described as numerically equivalent
+to the MATLAB preprocessing.
 
 ## Current Interpretation
 
