@@ -252,6 +252,10 @@ passes exact or current unit-aware closeness checks, and the signal scale differ
 substantially. The high sample-index-aligned correlation is therefore treated as
 a shape diagnostic, not as proof of numerical equivalence.
 
+The aggregate validation output is documented in
+`docs/preprocessing_validation_results.md`; subject-level validation CSV files
+remain local and are not uploaded to GitHub.
+
 ## Interpretation
 
 The current project demonstrates that an MNE-Python/MNE-NIRS pipeline can be

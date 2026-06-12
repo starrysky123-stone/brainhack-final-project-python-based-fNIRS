@@ -151,6 +151,7 @@ See:
 - `docs/matlab_mne_function_mapping.md`
 - `docs/matlab_validation_runbook.md`
 - `docs/preprocessing_validation_plan.md`
+- `docs/preprocessing_validation_results.md`
 - `docs/ta_feedback_response.md`
 
 ## Repository Structure
