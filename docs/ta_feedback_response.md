@@ -156,12 +156,20 @@ sample-index-aligned `np.array_equal`, unit-aware `np.allclose`, and maximum
 absolute differences. Interpolated correlation and fitted scaling are kept only
 as secondary diagnostics. After dropping one duplicate MATLAB manifest row, the
 refined validation compared 131 subjects and 10,480 channel-level comparisons.
-No subjects had identical time-grid lengths, only 14 subjects had close common
-time points, and no channel passed exact equality or the current unit-aware
-`allclose` tolerance. Therefore, I would not claim that the current Python
-preprocessing is numerically equivalent to MATLAB. Instead, I treat it as an
-MNE-Python implementation inspired by the MATLAB workflow and document the
-temporal and unit/scale discrepancies as methodological limitations.
+Following your later point about time units and crop/resampling differences, I
+also added diagnostics for whether the MATLAB time column appears to be seconds
+or milliseconds, whether the arrays differ by more than one sample, and whether
+relative time grids align after removing the starting-time offset. The current
+results suggest that MATLAB time is in seconds and the relative time grid
+aligns after removing the offset, but every subject still differs by more than
+one retained sample after trimming. I also added stage-wise time-grid diagnostic
+scripts for MATLAB and Python so the next check can locate whether divergence
+starts at raw loading, resampling, or trimming. No channel passed exact equality
+or the current unit-aware `allclose` tolerance. Therefore, I would not claim
+that the current Python preprocessing is numerically equivalent to MATLAB.
+Instead, I treat it as an MNE-Python implementation inspired by the MATLAB
+workflow and document the temporal, crop/trim, and unit/scale discrepancies as
+methodological limitations.
 
 The main project focus remains the MA-related fNIRS activation comparison
 between lower- and upper-grade children, while the MATLAB/MNE comparison is

@@ -23,9 +23,15 @@ Summary:
 | --- | ---: |
 | MATLAB manifest rows / duplicate subject rows | 132 / 1 |
 | Subjects with same number of time points | 0 |
+| Subjects with length difference <= 1 sample | 0 |
 | Subjects with close common time points | 14 |
+| Subjects with close relative common time points | 131 |
+| Subjects whose MATLAB time is guessed as seconds | 131 |
+| Subjects whose MATLAB time is guessed as milliseconds | 0 |
 | Median max absolute time difference | 21.0 s |
 | Maximum absolute time difference | 481.5 s |
+| Median max relative-time difference | 0.0 s |
+| Maximum relative-time difference | 0.0 s |
 | Channels exactly equal | 0 |
 | Channels unit-aware `allclose` | 0 |
 | Sample-index-aligned median correlation | 0.993 |
@@ -39,8 +45,11 @@ Summary:
 
 The validation does not support strict numerical equivalence between the
 current MNE-Python preprocessing and the MATLAB/nirs-toolbox preprocessing.
-Instead, it shows temporal-grid differences, no exact or current unit-aware
-array closeness, and a large amplitude/unit scale difference.
+Instead, it suggests that MATLAB time is in seconds and relative time grids
+align after removing the starting-time offset, but retained time-grid lengths
+still differ by more than one sample for every subject. It also shows no exact
+or current unit-aware array closeness and a large amplitude/unit scale
+difference.
 
 For exact step-by-step commands and interpretation guidance, see:
 

@@ -62,7 +62,8 @@ these stages:
 7. Run a MATLAB-like mixed-effects group model for long-HbO MA contrasts.
 8. Validate MATLAB/nirs-toolbox and MNE-Python preprocessing outputs as a
    method check.
-9. Generate aggregate fNIRS topographic maps for the MA results.
+9. Diagnose MATLAB/MNE time-grid differences stage by stage.
+10. Generate aggregate fNIRS topographic maps for the MA results.
 
 ## New Skills and Open Science
 
@@ -140,6 +141,14 @@ was 1.67e-08, indicating a major unit/scale mismatch. Therefore, the current
 Python pipeline should be interpreted as a transparent MNE-Python
 implementation inspired by the MATLAB workflow, not as a strict numerical
 replication of the MATLAB/nirs-toolbox pipeline.
+
+Following later feedback, the validation also checks whether MATLAB time values
+appear to be in seconds or milliseconds, whether relative time grids align after
+removing the starting-time offset, and whether time-grid length differences
+exceed one sample. The current aggregate results suggest MATLAB times are in
+seconds and relative time grids align, but MATLAB and Python retain different
+numbers of samples after trimming, indicating a remaining crop/trim boundary
+difference.
 
 Important remaining differences include MATLAB AR-IRLS estimation, possible
 HRF/model implementation differences, and solver/default differences in the
@@ -219,6 +228,18 @@ python scripts/visualization.py \
   --output-prefix ma_mixed_effects \
   --figure-title "MA-Control Mixed-Effects Long-HbO"
 python scripts/plot_brain_maps.py
+```
+
+Run optional time-grid diagnostics:
+
+```bash
+python scripts/python_time_grid_diagnostics.py --root-dir "/path/to/local/Anyalysis/group"
+```
+
+The corresponding MATLAB diagnostic script is:
+
+```text
+scripts/export_matlab_time_grid_diagnostics.m
 ```
 
 Create the final presentation deck:

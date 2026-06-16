@@ -232,9 +232,15 @@ channel-level comparisons.
 | Subjects compared | 131 |
 | Channel-level comparisons | 10,480 |
 | Subjects with same number of time points | 0 |
+| Subjects with length difference <= 1 sample | 0 |
 | Subjects with close common time points | 14 |
+| Subjects with close relative common time points | 131 |
+| Subjects whose MATLAB time is guessed as seconds | 131 |
+| Subjects whose MATLAB time is guessed as milliseconds | 0 |
 | Median max absolute time difference | 21.0 s |
 | Maximum absolute time difference | 481.5 s |
+| Median max relative-time difference | 0.0 s |
+| Maximum relative-time difference | 0.0 s |
 | Channels exactly equal | 0 |
 | Channels unit-aware `allclose` | 0 |
 | Sample-index-aligned median correlation | 0.993 |
@@ -247,10 +253,15 @@ channel-level comparisons.
 
 These results suggest that the current Python preprocessing is not a strict
 numerical replication of the MATLAB/nirs-toolbox preprocessing. The refined
-validation shows three separate issues: temporal grids differ, no channel
-passes exact or current unit-aware closeness checks, and the signal scale differs
-substantially. The high sample-index-aligned correlation is therefore treated as
-a shape diagnostic, not as proof of numerical equivalence.
+validation suggests that the MATLAB time column is in seconds, not
+milliseconds. Absolute time points differ mainly because MATLAB appears to
+preserve a nonzero starting-time offset after trimming, while the MNE-Python
+cropped output starts at 0 seconds. Relative time points align across subjects,
+but the retained time-grid lengths still differ by more than one sample for
+every subject, pointing to a remaining crop/trim boundary difference. No channel
+passes exact or current unit-aware closeness checks, and the signal scale
+differs substantially. The high sample-index-aligned correlation is therefore
+treated as a shape diagnostic, not as proof of numerical equivalence.
 
 The aggregate validation output is documented in
 `docs/preprocessing_validation_results.md`; subject-level validation CSV files

@@ -139,7 +139,10 @@ Key validation result:
 - 131 subjects compared.
 - 10,480 channel-level HbO/HbR time series compared after dropping one duplicate MATLAB manifest row.
 - 0 subjects had identical MATLAB/Python time-grid lengths.
+- 0 subjects had length differences within one sample.
 - 14 subjects had close common time points.
+- 131 subjects had close relative common time points after removing the starting-time offset.
+- MATLAB time values appear to be in seconds, not milliseconds.
 - 0 channels passed exact equality or current unit-aware `allclose`.
 - Sample-index-aligned median correlation: 0.993, as a shape diagnostic only.
 - Median Python/MATLAB standard-deviation ratio: 1.67e-08.
@@ -148,11 +151,12 @@ Interpretation:
 
 ```text
 This means I should not claim that the Python preprocessing is numerically
-equivalent to MATLAB. The validation shows temporal alignment differences and
-a large unit/scale mismatch. Instead, the Python pipeline should be presented
-as an open and transparent MNE-Python implementation inspired by the MATLAB
-workflow. The MATLAB comparison becomes a methodological validation and
-limitation.
+equivalent to MATLAB. The validation suggests that MATLAB and Python use the
+same time unit and relative sampling interval, but they differ in starting-time
+offset and retained sample length after trimming. It also shows a large
+unit/scale mismatch. Instead, the Python pipeline should be presented as an
+open and transparent MNE-Python implementation inspired by the MATLAB workflow.
+The MATLAB comparison becomes a methodological validation and limitation.
 ```
 
 ### 8. Take-Home Message

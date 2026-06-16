@@ -55,6 +55,24 @@ def compare_time_grid(
     time_atol: float,
 ) -> dict[str, Any]:
     n_common = min(len(matlab_time), len(py_time))
+    matlab_dt = np.diff(matlab_time)
+    py_dt = np.diff(py_time)
+    matlab_median_dt = float(np.median(matlab_dt)) if len(matlab_dt) else np.nan
+    py_median_dt = float(np.median(py_dt)) if len(py_dt) else np.nan
+    if np.isfinite(matlab_median_dt) and matlab_median_dt != 0:
+        dt_ratio_python_over_matlab = py_median_dt / matlab_median_dt
+    else:
+        dt_ratio_python_over_matlab = np.nan
+
+    matlab_seconds_error = abs(matlab_median_dt - py_median_dt)
+    matlab_milliseconds_error = abs((matlab_median_dt * 0.001) - py_median_dt)
+    if np.isfinite(matlab_seconds_error) and matlab_seconds_error <= time_atol:
+        matlab_time_unit_guess = "seconds"
+    elif np.isfinite(matlab_milliseconds_error) and matlab_milliseconds_error <= time_atol:
+        matlab_time_unit_guess = "milliseconds"
+    else:
+        matlab_time_unit_guess = "unknown"
+
     if n_common:
         time_diff = py_time[:n_common] - matlab_time[:n_common]
         max_abs_time_diff = float(np.max(np.abs(time_diff)))
@@ -62,29 +80,56 @@ def compare_time_grid(
         time_allclose = bool(
             np.allclose(py_time[:n_common], matlab_time[:n_common], rtol=0, atol=time_atol)
         )
+        py_relative_time = py_time[:n_common] - py_time[0]
+        matlab_relative_time = matlab_time[:n_common] - matlab_time[0]
+        relative_time_diff = py_relative_time - matlab_relative_time
+        max_abs_relative_time_diff = float(np.max(np.abs(relative_time_diff)))
+        mean_abs_relative_time_diff = float(np.mean(np.abs(relative_time_diff)))
+        relative_time_allclose = bool(
+            np.allclose(
+                py_relative_time,
+                matlab_relative_time,
+                rtol=0,
+                atol=time_atol,
+            )
+        )
     else:
         max_abs_time_diff = np.nan
         mean_abs_time_diff = np.nan
         time_allclose = False
+        max_abs_relative_time_diff = np.nan
+        mean_abs_relative_time_diff = np.nan
+        relative_time_allclose = False
 
-    matlab_dt = np.diff(matlab_time)
-    py_dt = np.diff(py_time)
+    length_diff_python_minus_matlab = int(len(py_time) - len(matlab_time))
+    abs_length_diff = abs(length_diff_python_minus_matlab)
     return {
         "subject": subject,
         "group": group,
         "matlab_n_times": int(len(matlab_time)),
         "python_n_times": int(len(py_time)),
+        "length_diff_python_minus_matlab": length_diff_python_minus_matlab,
+        "abs_length_diff": abs_length_diff,
+        "length_diff_gt_1": bool(abs_length_diff > 1),
         "same_n_times": bool(len(matlab_time) == len(py_time)),
         "n_common_times": int(n_common),
         "matlab_t0": float(matlab_time[0]) if len(matlab_time) else np.nan,
         "python_t0": float(py_time[0]) if len(py_time) else np.nan,
+        "time_zero_offset_python_minus_matlab": float(py_time[0] - matlab_time[0])
+        if len(matlab_time) and len(py_time)
+        else np.nan,
         "matlab_t_end": float(matlab_time[-1]) if len(matlab_time) else np.nan,
         "python_t_end": float(py_time[-1]) if len(py_time) else np.nan,
-        "matlab_median_dt": float(np.median(matlab_dt)) if len(matlab_dt) else np.nan,
-        "python_median_dt": float(np.median(py_dt)) if len(py_dt) else np.nan,
+        "matlab_median_dt": matlab_median_dt,
+        "python_median_dt": py_median_dt,
+        "dt_ratio_python_over_matlab": float(dt_ratio_python_over_matlab),
+        "matlab_time_unit_guess": matlab_time_unit_guess,
         "time_allclose": time_allclose,
+        "relative_time_allclose": relative_time_allclose,
         "max_abs_time_diff_common": max_abs_time_diff,
         "mean_abs_time_diff_common": mean_abs_time_diff,
+        "max_abs_relative_time_diff_common": max_abs_relative_time_diff,
+        "mean_abs_relative_time_diff_common": mean_abs_relative_time_diff,
     }
 
 
@@ -258,12 +303,30 @@ def summarize(
                 "n_subjects": ok["subject"].nunique(),
                 "n_channel_comparisons": len(ok),
                 "n_subjects_same_n_times": int(time_results["same_n_times"].sum()),
+                "n_subjects_length_diff_le_1": int(
+                    (time_results["abs_length_diff"] <= 1).sum()
+                ),
                 "n_subjects_time_allclose": int(time_results["time_allclose"].sum()),
+                "n_subjects_relative_time_allclose": int(
+                    time_results["relative_time_allclose"].sum()
+                ),
+                "n_subjects_matlab_time_guess_seconds": int(
+                    (time_results["matlab_time_unit_guess"] == "seconds").sum()
+                ),
+                "n_subjects_matlab_time_guess_milliseconds": int(
+                    (time_results["matlab_time_unit_guess"] == "milliseconds").sum()
+                ),
                 "median_max_abs_time_diff_common": time_results[
                     "max_abs_time_diff_common"
                 ].median(),
                 "max_abs_time_diff_common": time_results[
                     "max_abs_time_diff_common"
+                ].max(),
+                "median_max_abs_relative_time_diff_common": time_results[
+                    "max_abs_relative_time_diff_common"
+                ].median(),
+                "max_abs_relative_time_diff_common": time_results[
+                    "max_abs_relative_time_diff_common"
                 ].max(),
                 "n_array_equal": int(ok["array_equal"].sum()),
                 "n_allclose": int(ok["allclose"].sum()),

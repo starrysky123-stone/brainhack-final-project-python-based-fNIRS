@@ -51,6 +51,7 @@ to the current repository. It is based on the local course note PDF:
 | Brain-map method documentation | `docs/topographic_brain_map_method.md` |
 | Ten-minute talk plan | `docs/ten_minute_presentation_plan.md` |
 | MATLAB preprocessing validation | `scripts/export_matlab_preprocessed_for_validation.m`, `scripts/validate_matlab_mne_preprocessing.py` |
+| Time-grid diagnostics | `scripts/export_matlab_time_grid_diagnostics.m`, `scripts/python_time_grid_diagnostics.py` |
 | MATLAB-to-MNE function mapping | `docs/matlab_mne_function_mapping.md` |
 | MATLAB validation runbook | `docs/matlab_validation_runbook.md` |
 | MATLAB validation aggregate results | `docs/preprocessing_validation_results.md` |

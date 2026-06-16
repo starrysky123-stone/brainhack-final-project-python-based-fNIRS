@@ -121,6 +121,7 @@ The validation writes local result tables:
 
 ```text
 results/matlab_mne_preprocessing_validation.csv
+results/matlab_mne_preprocessing_time_alignment.csv
 results/matlab_mne_preprocessing_validation_summary.csv
 ```
 
@@ -138,8 +139,13 @@ The validation summary reports:
 | `n_subjects` | Number of participants successfully compared |
 | `n_channel_comparisons` | Number of channel-level MATLAB/Python comparisons |
 | `n_subjects_same_n_times` | Number of participants with identical MATLAB/Python time-grid lengths |
+| `n_subjects_length_diff_le_1` | Number of participants whose time-grid lengths differ by at most one sample |
 | `n_subjects_time_allclose` | Number of participants whose common time points pass `np.allclose` |
+| `n_subjects_relative_time_allclose` | Number of participants whose common relative time points pass `np.allclose` after removing the starting-time offset |
+| `n_subjects_matlab_time_guess_seconds` | Number of participants whose MATLAB median time step matches Python seconds |
+| `n_subjects_matlab_time_guess_milliseconds` | Number of participants whose MATLAB median time step appears to be milliseconds |
 | `median_max_abs_time_diff_common` | Median maximum absolute time difference over common sample indices |
+| `median_max_abs_relative_time_diff_common` | Median maximum relative-time difference after removing the starting-time offset |
 | `n_array_equal` | Number of channel arrays passing exact `np.array_equal` |
 | `n_allclose` | Number of channel arrays passing unit-aware `np.allclose` with current tolerances |
 | `median_correlation` | Sample-index-aligned time-series shape similarity; diagnostic only |
@@ -170,9 +176,15 @@ Summary:
 | Subjects compared | 131 |
 | Channel-level comparisons | 10,480 |
 | Subjects with same number of time points | 0 |
+| Subjects with length difference <= 1 sample | 0 |
 | Subjects with close common time points | 14 |
+| Subjects with close relative common time points | 131 |
+| Subjects whose MATLAB time is guessed as seconds | 131 |
+| Subjects whose MATLAB time is guessed as milliseconds | 0 |
 | Median max absolute time difference | 21.0 s |
 | Maximum absolute time difference | 481.5 s |
+| Median max relative-time difference | 0.0 s |
+| Maximum relative-time difference | 0.0 s |
 | Channels exactly equal | 0 |
 | Channels unit-aware `allclose` | 0 |
 | Sample-index-aligned median correlation | 0.993 |
@@ -187,12 +199,65 @@ Summary:
 Interpretation:
 
 The current Python preprocessing output is not numerically equivalent to the
-MATLAB/nirs-toolbox preprocessing output. The refined validation shows temporal
-grid differences, no exact or current unit-aware array closeness, and a large
-amplitude/unit scale difference. Therefore, the Python pipeline should be
-described as a transparent MNE-Python implementation based on the MATLAB
-workflow, not as a bitwise or numerically matched reproduction of the MATLAB
-pipeline.
+MATLAB/nirs-toolbox preprocessing output. The refined validation suggests the
+MATLAB time column is in seconds, not milliseconds. Absolute time points differ
+mainly because MATLAB appears to preserve a nonzero starting-time offset after
+trimming while the MNE-Python cropped output starts at 0 seconds. Relative time
+points align across subjects, but the retained time-grid lengths still differ
+by more than one sample for every subject, pointing to a remaining trim/crop
+boundary difference. The validation also shows no exact or current unit-aware
+array closeness and a large amplitude/unit scale difference. Therefore, the
+Python pipeline should be described as a transparent MNE-Python implementation
+based on the MATLAB workflow, not as a bitwise or numerically matched
+reproduction of the MATLAB pipeline.
+
+## Optional Stepwise Time-Grid Diagnostics
+
+To diagnose where the MATLAB/Python time grids first diverge, export timing
+metadata at each preprocessing stage.
+
+In MATLAB:
+
+```matlab
+cd('/Users/lisa/Desktop/brainhack-final-project-python-based-fNIRS')
+run('scripts/export_matlab_time_grid_diagnostics.m')
+```
+
+When MATLAB asks for the data folder, select:
+
+```text
+/Users/lisa/Desktop/dyslexia＿project/Anyalysis/group
+```
+
+In Python:
+
+```bash
+python scripts/python_time_grid_diagnostics.py \
+  --root-dir "/Users/lisa/Desktop/dyslexia＿project/Anyalysis/group"
+```
+
+These scripts export timing metadata for:
+
+```text
+raw_loaded
+stim_renamed
+event_filtered
+short_separation_labeled
+resampled_2hz
+optical_density
+beer_lambert
+trimmed
+```
+
+The outputs are local diagnostic tables:
+
+```text
+validation/matlab_time_grid_by_stage.csv
+results/python_time_grid_by_stage.csv
+```
+
+They are intentionally not tracked by Git because they may include
+participant-level timing metadata.
 
 ## Suggested Wording for the Report
 

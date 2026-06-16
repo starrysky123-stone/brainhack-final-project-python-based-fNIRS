@@ -43,9 +43,15 @@ The refined validation does the following:
 | Subjects compared | 131 |
 | Channel-level comparisons | 10,480 |
 | Subjects with identical MATLAB/Python time-grid length | 0 |
+| Subjects with length difference <= 1 sample | 0 |
 | Subjects with close common time points | 14 |
+| Subjects with close relative common time points after removing t0 offset | 131 |
+| Subjects whose MATLAB time unit is guessed as seconds | 131 |
+| Subjects whose MATLAB time unit is guessed as milliseconds | 0 |
 | Median maximum absolute time difference over common indices | 21.0 s |
 | Maximum absolute time difference over common indices | 481.5 s |
+| Median maximum relative-time difference over common indices | 0.0 s |
+| Maximum relative-time difference over common indices | 0.0 s |
 | Channels passing exact `np.array_equal` | 0 |
 | Channels passing current unit-aware `np.allclose` | 0 |
 | Sample-index-aligned median correlation | 0.992879 |
@@ -66,11 +72,23 @@ preprocessing output.
 The main unresolved discrepancies are:
 
 1. **Temporal alignment**: no subject had identical MATLAB/Python time-grid
-   lengths, and only 14 subjects had close common time points.
+   lengths, and only 14 subjects had close absolute common time points.
+   However, all 131 subjects had close relative common time points after
+   removing the starting-time offset, and the MATLAB time column is guessed to
+   be in seconds rather than milliseconds.
 2. **Numerical closeness**: no channel passed exact equality or the current
    unit-aware `allclose` check.
 3. **Unit/scale**: the Python/MATLAB standard-deviation ratio was approximately
    `1.67e-08`, indicating a large scale mismatch.
+
+The refined time-grid diagnostics suggest that the time-unit issue raised in
+TA feedback is unlikely to be milliseconds-vs-seconds in the current export.
+Instead, MATLAB appears to preserve a nonzero starting-time offset after
+trimming, while the MNE-Python output starts at 0 seconds after cropping. The
+sampling interval is aligned at 0.5 seconds, but the number of retained samples
+still differs by more than one sample for every subject. This points toward a
+remaining crop/trim boundary difference rather than a simple time-unit
+conversion issue.
 
 The high sample-index-aligned median correlation suggests that many signals
 have similar shape when compared by sample order. However, correlation is not
@@ -80,3 +98,34 @@ differences.
 Therefore, the Python pipeline should be presented as a transparent
 MNE-Python/MNE-NIRS implementation inspired by the MATLAB workflow, not as a
 strict numerical replication of the MATLAB/nirs-toolbox pipeline.
+
+## Added Stepwise Time-Grid Diagnostics
+
+To better diagnose where the timing discrepancy begins, the repository now
+includes two stage-wise timing scripts:
+
+```text
+scripts/export_matlab_time_grid_diagnostics.m
+scripts/python_time_grid_diagnostics.py
+```
+
+The MATLAB script exports timing metadata at these stages:
+
+```text
+raw_loaded
+stim_renamed
+event_filtered
+short_separation_labeled
+resampled_2hz
+optical_density
+beer_lambert
+trimmed
+```
+
+The Python script exports the same stage labels from the MNE-Python workflow.
+This allows future comparison of raw and intermediate time grids before
+comparing HbO/HbR values. The Python diagnostic has already been run locally and
+shows that the MNE-Python output starts at 0 seconds after trimming. The MATLAB
+stage-wise diagnostic still needs to be run locally in MATLAB to identify
+whether MATLAB preserves the original time offset at the raw stage or after
+trimming.

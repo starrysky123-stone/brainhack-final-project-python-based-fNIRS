@@ -232,13 +232,16 @@ Following TA feedback, the validation was revised to first diagnose temporal
 alignment and then compare arrays without using interpolation as the primary
 validation step. One duplicate MATLAB manifest row was dropped, leaving 131
 subjects and 10,480 channel-level comparisons. No subjects had identical
-time-grid lengths, only 14 subjects had close common time points, and no
-channel was exactly equal or unit-aware `allclose` under the current default
-tolerances. The sample-index-aligned median correlation was 0.993, but this is
-treated only as a shape diagnostic. The median Python/MATLAB standard-deviation
-ratio was 1.67e-08, indicating a large unit/scale mismatch. Therefore, the
-current Python preprocessing should not be described as numerically equivalent
-to the MATLAB preprocessing.
+time-grid lengths, no subjects had length differences within one sample, and
+only 14 subjects had close absolute common time points. After removing the
+starting-time offset, all 131 subjects had close relative common time points,
+suggesting that MATLAB time is in seconds but preserves a nonzero starting-time
+offset after trimming. No channel was exactly equal or unit-aware `allclose`
+under the current default tolerances. The sample-index-aligned median
+correlation was 0.993, but this is treated only as a shape diagnostic. The
+median Python/MATLAB standard-deviation ratio was 1.67e-08, indicating a large
+unit/scale mismatch. Therefore, the current Python preprocessing should not be
+described as numerically equivalent to the MATLAB preprocessing.
 
 ## Current Interpretation
 

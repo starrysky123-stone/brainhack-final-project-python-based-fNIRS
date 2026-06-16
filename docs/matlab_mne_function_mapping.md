@@ -129,9 +129,15 @@ Summary:
 | Subjects compared | 131 |
 | Channel-level comparisons | 10,480 |
 | Subjects with same number of time points | 0 |
+| Subjects with length difference <= 1 sample | 0 |
 | Subjects with close common time points | 14 |
+| Subjects with close relative common time points | 131 |
+| Subjects whose MATLAB time is guessed as seconds | 131 |
+| Subjects whose MATLAB time is guessed as milliseconds | 0 |
 | Median max absolute time difference | 21.0 s |
 | Maximum absolute time difference | 481.5 s |
+| Median max relative-time difference | 0.0 s |
+| Maximum relative-time difference | 0.0 s |
 | Channels exactly equal | 0 |
 | Channels unit-aware `allclose` | 0 |
 | Sample-index-aligned median correlation | 0.993 |
@@ -142,10 +148,12 @@ Summary:
 
 This indicates that the current MNE-Python preprocessing is not a strict
 numerical replication of the MATLAB/nirs-toolbox preprocessing. The refined
-validation shows temporal-grid differences, no exact or current unit-aware
-array closeness, and a large amplitude/unit scale difference. The high
-sample-index-aligned correlation is useful as a shape diagnostic, but it is not
-evidence of numerical equivalence.
+validation suggests MATLAB time is in seconds and relative time grids align
+after removing the starting-time offset, but the retained number of samples
+still differs by more than one sample for every subject. It also shows no exact
+or current unit-aware array closeness and a large amplitude/unit scale
+difference. The high sample-index-aligned correlation is useful as a shape
+diagnostic, but it is not evidence of numerical equivalence.
 
 The MA activation comparison can still be presented as an MNE-Python analysis
 pipeline inspired by the MATLAB workflow. However, the report should not claim
