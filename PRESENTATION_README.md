@@ -4,6 +4,28 @@
 
 - Analyze child language-development data using fNIRS.
 - Use only the typically developing children dataset.
+  - Research question: Do lower-grade and upper-grade children show different
+    fNIRS brain activation patterns during morphological awareness processing?
+  - Groups:
+
+    | Group | Participants |
+    | --- | ---: |
+    | Grades 1-3, `G1_3` | 59 |
+    | Grades 4-6, `G4_6` | 72 |
+    | Total | 131 |
+
+  - Main contrast:
+
+    ```text
+    MA - Control
+    ```
+
+  - Group contrast:
+
+    ```text
+    (G4_6 MA-Control) - (G1_3 MA-Control)
+    ```
+
 - Rebuild the original MATLAB-based fNIRS analysis pipeline using MNE-Python.
 
 **Purpose:**
@@ -12,32 +34,9 @@
   different results.
 - Explore where those differences may come from.
 
-## Research Question
+**MATLAB-based pipeline repo:**
 
-**Question to say clearly:**
-
-Do lower-grade and upper-grade children show different fNIRS brain activation
-patterns during morphological awareness processing?
-
-**Groups:**
-
-| Group | Participants |
-| --- | ---: |
-| Grades 1-3, `G1_3` | 59 |
-| Grades 4-6, `G4_6` | 72 |
-| Total | 131 |
-
-**Main contrast:**
-
-```text
-MA - Control
-```
-
-**Group contrast:**
-
-```text
-(G4_6 MA-Control) - (G1_3 MA-Control)
-```
+[starrysky123-stone/fnirs-ma-brainhack-final-project](https://github.com/starrysky123-stone/fnirs-ma-brainhack-final-project)
 
 ## Python Pipeline
 
