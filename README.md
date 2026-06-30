@@ -22,6 +22,13 @@ derived participant-level files are not uploaded to GitHub because they contain
 private child-participant data. This repository contains the analysis code,
 configuration, documentation, and non-sensitive summaries.
 
+## Related Repository
+
+The original MATLAB/nirs-toolbox workflow used as the methodological reference
+for this project is available here:
+
+- [starrysky123-stone/fnirs-ma-brainhack-final-project](https://github.com/starrysky123-stone/fnirs-ma-brainhack-final-project)
+
 ## Main Research Question
 
 Do lower-grade and upper-grade children show different fNIRS brain activation
