@@ -68,21 +68,18 @@ SNIRF loading
 
 ## Current Results
 
-**Main result statement:**
-
-The Python pipeline successfully processed all 131 participants and generated
-group-level statistics, aggregate figures, and fNIRS topographic maps.
-
-**Statistical result:**
-
-- Analysis focused on 32 long-distance HbO channels.
-- No channel survived FDR or Bonferroni correction.
-- Current group-level findings should be interpreted as exploratory.
-
-**Useful phrase:**
-
-The current statistical evidence for group differences is not strong after
-correction, but the pipeline runs end to end and produces reproducible outputs.
+- The MNE-Python pipeline runs end-to-end.
+- It processed 131 typically developing children.
+- Outputs include:
+  - `MA-Control` contrast estimates
+  - group-level statistical summaries
+  - fNIRS topographic maps
+- Python results are not numerically identical to MATLAB/nirs-toolbox results.
+- Possible reasons:
+  - preprocessing details
+  - time alignment
+  - unit scaling
+  - toolbox-specific default settings
 
 ## Figures to Show
 
