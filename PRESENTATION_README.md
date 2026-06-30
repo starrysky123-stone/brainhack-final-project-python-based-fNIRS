@@ -112,6 +112,19 @@ SNIRF loading
 Where might the result differences between MATLAB/nirs-toolbox and MNE-Python
 come from?
 
+**Evidence source:**
+
+- These evidence points come from a custom validation script written for this
+  project: `scripts/validate_matlab_mne_preprocessing.py`.
+- The script compares MATLAB/nirs-toolbox preprocessing outputs with
+  MNE-Python preprocessing outputs.
+- It is not an official MNE validation function.
+- It uses standard numerical checks, including time-grid comparison,
+  `np.array_equal`, `np.allclose`, maximum absolute difference, MAE, RMSE, and
+  correlation.
+- The aggregate results are documented in
+  `docs/preprocessing_validation_results.md`.
+
 **Evidence 1: time alignment**
 
 - MATLAB time appears to be in seconds, not milliseconds.
