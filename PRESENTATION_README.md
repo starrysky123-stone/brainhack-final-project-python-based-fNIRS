@@ -83,73 +83,89 @@ SNIRF loading
 
 ## Figures to Show
 
-**Group-level result figures:**
+**Use the figures to show two things:**
 
-- `figures/ma_group_significance_counts.png`
-- `figures/ma_top_channel_pvalues.png`
+- The MNE-Python pipeline can produce complete group-level outputs.
+- The current results should be interpreted together with the validation
+  evidence, because Python and MATLAB are not numerically identical.
+
+**Main figures:**
+
 - `figures/ma_mixed_effects_group_significance_counts.png`
 - `figures/ma_mixed_effects_top_channel_pvalues.png`
-
-**Topographic brain map:**
-
 - `figures/ma_mixed_effects_topographic_maps.png`
 
-**Brain-map note:**
+**How to explain the figures:**
 
-The topographic maps were generated with MNE-Python's official
-`mne.viz.plot_topomap` function. They are fNIRS channel-level topographic maps
-based on the measured optode montage, not structural MRI activation maps.
+- These figures show the group-level `MA-Control` comparison between `G1_3`
+  and `G4_6`.
+- The topographic map visualizes channel-level fNIRS patterns, not structural
+  MRI activation.
+- Because the MATLAB and Python preprocessing outputs differ, these maps are
+  presented as MNE-Python pipeline outputs rather than exact reproductions of
+  the MATLAB results.
 
 ## MATLAB-vs-MNE Validation
 
-**Why validation was needed:**
+**Main validation question:**
 
-The original workflow was written in MATLAB/nirs-toolbox, so the Python output
-was compared with MATLAB preprocessing output to understand cross-platform
-differences.
+Where might the result differences between MATLAB/nirs-toolbox and MNE-Python
+come from?
 
-**Validation logic after TA feedback:**
-
-- Check temporal alignment first.
-- Avoid using interpolation as the main validation criterion.
-- Compare arrays with:
-  - `np.array_equal`
-  - unit-aware `np.allclose`
-  - maximum absolute difference
-  - MAE
-  - RMSE
-- Treat correlation as a shape diagnostic only.
-
-**Aggregate validation findings:**
-
-| Item | Result |
-| --- | ---: |
-| Subjects compared | 131 |
-| Channel-level comparisons | 10,480 |
-| Channels passing exact equality | 0 |
-| Channels passing current unit-aware `allclose` | 0 |
-| Python/MATLAB standard-deviation ratio | 1.67e-08 |
-
-**Timing finding:**
+**Evidence 1: time alignment**
 
 - MATLAB time appears to be in seconds, not milliseconds.
-- Relative time grids align after removing the starting-time offset.
-- MATLAB and Python still retain different numbers of samples after trimming.
-- This suggests a crop/trim boundary difference.
+- Absolute time points do not fully match between MATLAB and Python.
+- Relative time points align after removing the starting-time offset.
+- No subject had identical MATLAB/Python time-grid length.
+- This suggests the difference is more likely related to crop/trim boundaries
+  or starting-time handling, not a simple seconds-vs-milliseconds issue.
+
+**Evidence 2: numerical equivalence**
+
+- Channels passing exact equality: `0`.
+- Channels passing current unit-aware `allclose`: `0`.
+- This means the current Python preprocessing output is not numerically
+  equivalent to the MATLAB preprocessing output.
+
+**Evidence 3: unit or scale difference**
+
+- Median Python/MATLAB standard-deviation ratio: `1.67e-08`.
+- This suggests a large unit or scale mismatch between the two exported
+  preprocessing outputs.
+
+**Evidence 4: signal shape**
+
+- Sample-index-aligned median correlation: `0.993`.
+- This suggests many signals have similar shapes.
+- But correlation is not enough to prove equivalence, because it can hide
+  timing and scale differences.
 
 ## Interpretation
 
-**Main interpretation:**
+**Most likely sources of MATLAB-vs-MNE differences:**
 
-The Python pipeline is a transparent MNE-Python implementation inspired by the
-MATLAB workflow, not a strict numerical replication of the MATLAB pipeline.
+- Crop/trim boundary handling.
+- Starting-time offset handling.
+- Unit or scale conventions.
+- Toolbox-specific preprocessing defaults.
 
-**Limitations:**
+**What the validation supports:**
 
-- Group-level results are exploratory.
-- MATLAB and Python preprocessing outputs are not numerically equivalent.
-- Remaining differences likely involve crop/trim boundaries and unit/scale
-  conventions.
+- The difference is probably not just a time-unit problem.
+- The Python and MATLAB signals can be shape-similar but still not numerically
+  equivalent.
+- The MNE-Python pipeline should be presented as a transparent reconstruction,
+  not a strict numerical copy of the MATLAB/nirs-toolbox pipeline.
+
+**How to frame the current results:**
+
+- The scientific goal remains the developmental comparison during MA
+  processing.
+- The methodological finding is that rebuilding the pipeline in MNE-Python
+  reveals cross-tool differences that need to be documented.
+- Therefore, the current group results are useful, but should be interpreted as
+  MNE-Python outputs with known validation limitations.
 
 ## Take-Home Message
 
