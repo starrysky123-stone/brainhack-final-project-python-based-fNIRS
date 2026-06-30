@@ -150,29 +150,12 @@ come from?
 
 ## Interpretation
 
-**Most likely sources of MATLAB-vs-MNE differences:**
-
-- Crop/trim boundary handling.
-- Starting-time offset handling.
-- Unit or scale conventions.
-- Toolbox-specific preprocessing defaults.
-
-**What the validation supports:**
-
-- The difference is probably not just a time-unit problem.
-- The Python and MATLAB signals can be shape-similar but still not numerically
-  equivalent.
-- The MNE-Python pipeline should be presented as a transparent reconstruction,
-  not a strict numerical copy of the MATLAB/nirs-toolbox pipeline.
-
-**How to frame the current results:**
-
-- The scientific goal remains the developmental comparison during MA
-  processing.
-- The methodological finding is that rebuilding the pipeline in MNE-Python
-  reveals cross-tool differences that need to be documented.
-- Therefore, the current group results are useful, but should be interpreted as
-  MNE-Python outputs with known validation limitations.
+- The MNE-Python pipeline is a transparent reconstruction, not an exact
+  numerical copy of the MATLAB/nirs-toolbox pipeline.
+- The main unresolved difference appears to involve time alignment and
+  crop/trim boundary handling.
+- The group-level results should be interpreted as MNE-Python outputs, with
+  cross-tool differences documented as a methodological limitation.
 
 ## Take-Home Message
 
@@ -180,7 +163,7 @@ come from?
 
 This project produced a reproducible MNE-Python fNIRS pipeline for MA-related
 developmental group analysis and documented unresolved MATLAB-vs-MNE timing and
-unit/scale discrepancies as methodological limitations.
+crop/trim discrepancies as methodological limitations.
 
 ## Useful Links
 
