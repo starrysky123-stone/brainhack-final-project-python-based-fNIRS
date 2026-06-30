@@ -141,13 +141,7 @@ come from?
 - This means the current Python preprocessing output is not numerically
   equivalent to the MATLAB preprocessing output.
 
-**Evidence 3: unit or scale difference**
-
-- Median Python/MATLAB standard-deviation ratio: `1.67e-08`.
-- This suggests a large unit or scale mismatch between the two exported
-  preprocessing outputs.
-
-**Evidence 4: signal shape**
+**Evidence 3: signal shape**
 
 - Sample-index-aligned median correlation: `0.993`.
 - This suggests many signals have similar shapes.
