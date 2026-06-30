@@ -161,9 +161,15 @@ come from?
 
 **Final point to leave with the audience:**
 
-This project produced a reproducible MNE-Python fNIRS pipeline for MA-related
-developmental group analysis and documented unresolved MATLAB-vs-MNE timing and
-crop/trim discrepancies as methodological limitations.
+- This project built a reproducible MNE-Python fNIRS pipeline for MA-related
+  developmental group analysis.
+- The pipeline can process the full TD dataset and generate group-level
+  statistics and topographic maps.
+- The MATLAB-vs-MNE validation shows that the two pipelines are not
+  numerically identical, with remaining differences most likely related to
+  time alignment and crop/trim boundary handling.
+- Overall, the project supports the MA group comparison while also making
+  cross-tool pipeline differences more transparent.
 
 ## Useful Links
 
