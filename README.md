@@ -1,5 +1,8 @@
 # BrainHack Final Project: MA-Related fNIRS Brain Activation Differences
 
+For the 5-minute presentation script, see
+[`PRESENTATION_README.md`](PRESENTATION_README.md).
+
 ## Project Title
 
 MA-Related fNIRS Brain Activation Differences Between Lower- and Upper-Grade Children
