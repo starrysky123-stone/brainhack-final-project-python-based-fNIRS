@@ -2,31 +2,15 @@
 
 ## Project Focus
 
-**Dataset focus:**
+- Analyze child language-development data using fNIRS.
+- Use only the typically developing children dataset.
+- Rebuild the original MATLAB-based fNIRS analysis pipeline using MNE-Python.
 
-This project uses fNIRS data from a child language-development dataset.
+**Purpose:**
 
-**Participant focus:**
-
-For this project, I only use data from typically developing children. The
-participants are divided into two age-related reading-development groups:
-lower-grade children and upper-grade children.
-
-**Main analysis focus:**
-
-The analysis asks whether lower-grade and upper-grade typically developing
-children show different fNIRS brain activation patterns during morphological
-awareness processing.
-
-**Pipeline focus:**
-
-The main technical goal is to build a transparent MNE-Python fNIRS pipeline and
-apply it to MA-related developmental group analysis.
-
-Because the original analysis workflow was written in MATLAB/nirs-toolbox, this
-project also focuses on rebuilding the analysis pipeline in Python and asking
-whether pipelines built with different tools produce different results, and
-where those differences may come from.
+- Observe whether the MATLAB-based and MNE-Python-based pipelines produce
+  different results.
+- Explore where those differences may come from.
 
 ## Research Question
 
@@ -54,25 +38,6 @@ MA - Control
 ```text
 (G4_6 MA-Control) - (G1_3 MA-Control)
 ```
-
-## Why This Project
-
-**Key points:**
-
-- The dataset comes from a child language-development fNIRS study.
-- This project focuses only on typically developing children.
-- The scientific comparison is between lower-grade and upper-grade children.
-- Original lab workflow: MATLAB/nirs-toolbox.
-- Final project workflow: Python with MNE-Python/MNE-NIRS.
-- The project emphasizes rebuilding the analysis toolchain and documenting
-  cross-tool differences.
-
-**Useful phrase:**
-
-My project has two connected goals: first, to apply fNIRS analysis to a
-developmental MA question in typically developing children; second, to rebuild
-the original MATLAB/nirs-toolbox workflow in MNE-Python and examine whether
-tool-specific pipeline differences affect the results.
 
 ## Python Pipeline
 
