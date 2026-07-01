@@ -91,9 +91,17 @@ SNIRF loading
 
 **Main figures:**
 
-- `figures/ma_mixed_effects_group_significance_counts.png`
-- `figures/ma_mixed_effects_top_channel_pvalues.png`
-- `figures/ma_mixed_effects_topographic_maps.png`
+**Group significance counts**
+
+![Group significance counts](figures/ma_mixed_effects_group_significance_counts.png)
+
+**Top channel p-values**
+
+![Top channel p-values](figures/ma_mixed_effects_top_channel_pvalues.png)
+
+**Topographic maps**
+
+![Topographic maps](figures/ma_mixed_effects_topographic_maps.png)
 
 **How to explain the figures:**
 
